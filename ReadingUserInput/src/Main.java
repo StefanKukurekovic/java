@@ -5,16 +5,26 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter your year of birth: ");
-        int yearOfBirth = scanner.nextInt(); // reads integer, so that we dont have to convert it manually
-        scanner.nextLine(); // handle next line character (enter key)
 
-        System.out.println("Enter your name: ");
-        String name = scanner.nextLine();
+        boolean hasNextInt = scanner.hasNextInt(); //checks if this is a number
 
-        int age = 2019 - yearOfBirth;
+        if(hasNextInt){
+            int yearOfBirth = scanner.nextInt(); // reads integer, so that we dont have to convert it manually
+            scanner.nextLine(); // handle next line character (enter key)
 
+            System.out.println("Enter your name: ");
+            String name = scanner.nextLine();
 
-        System.out.println("Your name is " + name + " and you are " + age + " years old!");
+            int age = 2019 - yearOfBirth;
+
+            if(age >= 0 && age <= 100){
+                System.out.println("Your name is " + name + " and you are " + age + " years old!");
+            } else {
+                System.out.println("Invalid year of birth");
+            }
+        }else{
+            System.out.println("Unable to parse year of birth.");
+        }
 
         scanner.close();
     }
