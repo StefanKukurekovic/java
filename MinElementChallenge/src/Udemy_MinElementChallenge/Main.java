@@ -8,7 +8,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		int[] getIntegers = readIntegers(5);
+		int[] getIntegers = readIntegers(6);
 		
 		for(int i = 0; i < getIntegers.length; i++)
 		{
@@ -35,7 +35,7 @@ public class Main {
 	// Method for finding the smallest value in an array
 	public static int findMin(int[] values)
 	{
-		int min = values[0];
+		int min = Integer.MAX_VALUE;
 		for(int i = 0; i < values.length; i++)
 		{
 			if(values[i] < min)
