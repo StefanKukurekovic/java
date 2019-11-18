@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="AllFactors/src"/>
+	<classpathentry kind="src" path="Area/src"/>
+	<classpathentry kind="src" path="areEqualByThreeDecimalPlaces/src"/>
+	<classpathentry kind="src" path="BarkingDog/src"/>
+	<classpathentry kind="src" path="ControlFlowSwitch/src"/>
+	<classpathentry kind="src" path="DayOfTheWeekChallenge/src"/>
+	<classpathentry kind="src" path="DigitSumChallenge/src"/>
+	<classpathentry kind="src" path="EqualSumChecker/src"/>
+	<classpathentry kind="src" path="EvenDigitSum/src"/>
+	<classpathentry kind="src" path="FensterTag 1.0/src"/>
+	<classpathentry kind="src" path="FirstAndLastDigit/src"/>
+	<classpathentry kind="src" path="ForIsOdd/src"/>
+	<classpathentry kind="src" path="GreatestCommonDivisor/src"/>
+	<classpathentry kind="src" path="HasSharedDigit/src"/>
+	<classpathentry kind="src" path="hasTeen/src"/>
+	<classpathentry kind="src" path="IntEqualityPrinter/src"/>
+	<classpathentry kind="src" path="isLeapYear/src"/>
+	<classpathentry kind="src" path="isLeapYearSwitch/src"/>
+	<classpathentry kind="src" path="LastDigitChecker/src"/>
+	<classpathentry kind="src" path="MegaBytesConverter/src"/>
+	<classpathentry kind="src" path="MinAndMaxInputChallenge/src"/>
+	<classpathentry kind="src" path="NumberPalindrome/src"/>
+	<classpathentry kind="src" path="NumberToWords/src"/>
+	<classpathentry kind="src" path="ParsingValuesFromString/src"/>
+	<classpathentry kind="src" path="PerfectNumber/src"/>
+	<classpathentry kind="src" path="PlayingCat/src"/>
+	<classpathentry kind="src" path="printNumberInWord/src"/>
+	<classpathentry kind="src" path="printYearsAndDays/src"/>
+	<classpathentry kind="src" path="ReadingUserInput/src"/>
+	<classpathentry kind="src" path="ReadingUserInputChallenge/src"/>
+	<classpathentry kind="src" path="SecondsAndMinutes/src"/>
+	<classpathentry kind="src" path="Session2/src"/>
+	<classpathentry kind="src" path="SpeedConverter/src"/>
+	<classpathentry kind="src" path="TheFor/src"/>
+	<classpathentry kind="src" path="untitled/src"/>
+	<classpathentry kind="output" path="Area/out/production/Area"/>
+</classpath>
