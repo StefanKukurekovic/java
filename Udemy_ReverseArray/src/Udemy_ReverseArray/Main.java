@@ -1,4 +1,5 @@
 package Udemy_ReverseArray;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -9,12 +10,26 @@ public class Main {
 		
 		int[] newArray = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
 		
+//		System.out.println("Non reversed array: " + Arrays.toString(newArray));
+		
 		reverse(newArray);
 
+//		System.out.println("Reversed array: " + Arrays.toString(newArray));
 	}
 	
 	public static void reverse(int[] reverseArray)
 	{
+//		int maxIndex = reverseArray.length - 1;
+//		int halfLength = reverseArray.length / 2;
+//		
+//		for(int i = 0; i < halfLength; i++)
+//		{
+//			int temp = reverseArray[i];
+//			reverseArray[i] = reverseArray[maxIndex - i];
+//			reverseArray[maxIndex - i] = temp;
+//		}
+		
+		
 		int temp = 0;
 		System.out.println("Non reversed array:");
 		
