@@ -40,7 +40,7 @@ public class Main {
 		{
 			if((double)i-1 == Math.ceil((double)reverseArray.length/2.0))
 			{
-				break;
+	 			break;
 			}else {
 				temp = reverseArray[i-1];
 				reverseArray[i-1] = reverseArray[reverseArray.length-i];
