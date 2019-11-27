@@ -83,7 +83,7 @@ public class Main {
 		groceryList.removeGroceryItem(itemNo);
 	}
 	
-	public static void searchForItem() {
+	public static void searchForItem() { 
 		System.out.print("Item to search for: ");
 		String searchItem = scanner.nextLine();
 		if(groceryList.onFile(searchItem))
