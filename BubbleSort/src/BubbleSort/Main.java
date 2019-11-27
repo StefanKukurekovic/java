@@ -7,8 +7,7 @@ public class Main {
 		int[] arr = {6,1,2,7,33,62,4,72,47,8,66,100,95};
 		
 		bubble(arr);
-		print(arr);
-		
+		print(arr);		
 
 	}
 	
@@ -22,13 +21,28 @@ public class Main {
 	public static void bubble(int numbers[]) {
 		 /* i actually counts the number of runs*/
 		 for (int i=0;i<numbers.length-1;i++){
-		 /*the last i positions are correct*/
-		 for (int j=1;j<numbers.length-i;j++)
-		 /*swap neighbors, if required*/
-		 if (numbers[j-1]>numbers[j])
-		 swap(numbers,j-1,j);
-		 }
+			 /*the last i positions are correct*/
+			 for (int j=1;j<numbers.length-i;j++)
+				 /*swap neighbors, if required*/
+				 if (numbers[j-1]>numbers[j])
+					 swap(numbers,j-1,j);
+			 }
 	}
+	
+	public static void bubbleFast(int numbers[]) {
+		 boolean swapped;
+		 int i=0;
+		 do {
+			 swapped = false;
+			 for (int j = 1; j < numbers.length - i; j++)
+				 if (numbers[j - 1] > numbers[j]) {
+					 swap(numbers, j - 1, j);
+					 swapped = true;
+				 }
+			 i++;
+		 } while (swapped);
+	}
+
 	
 	public static void print(int arr[])
 	{
