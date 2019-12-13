@@ -70,7 +70,7 @@ public class Main {
 		
 	}
 	
-	// outputs the category name of given bmiCategory
+	// outputs the category name of given bmiCategory.
 	public static void bmiMessage(int bmiCategory) {
 
 		switch(bmiCategory) {
