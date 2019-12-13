@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Main {
 
 	public static void main(String[] args) {
-		// Scanner function for input
+		// Scanner function for input.
 		Scanner sc = new Scanner(System.in);
 		
 		double weight, height, bmi;
