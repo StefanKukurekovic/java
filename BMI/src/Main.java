@@ -35,7 +35,7 @@ public class Main {
 	
 	}
 	
-	// Calculates BMI category
+	// Calculates BMI category.
 	public static int bmiCategory(double bmi) {
 		
 		if(bmi > -1.0 && bmi < 15.00)
