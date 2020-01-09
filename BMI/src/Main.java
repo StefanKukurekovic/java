@@ -62,7 +62,7 @@ public class Main {
 		}else if(bmi >= 40.00)
 		{
 			return 42;
-		}else if (bmi <= -1.0){
+		}else 		3,if (bmi <= -1.0){
 			return -1;
 		}
 		
