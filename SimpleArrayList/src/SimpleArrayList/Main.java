@@ -1,5 +1,4 @@
-package lendItems;
-
+package SimpleArrayList;
 public class Main {
 
 	public static void main(String[] args) {
@@ -26,7 +25,7 @@ public class Main {
 		remove(list, 1);
 		printList(list);
 		
-		remove(list, 4);
+		remove(list, 1);
 		printList(list);
 	}
 
