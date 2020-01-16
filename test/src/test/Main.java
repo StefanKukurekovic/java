@@ -1,7 +1,7 @@
 package test;
 
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 import java.util.Scanner;
 
 
@@ -11,7 +11,7 @@ public class Main {
 		
 	public static void main(String[] args) {
 		LendItemArrayList list = new LendItemArrayList();
-		LendItem item = new LendItem();
+//		LendItem item = new LendItem();
 		
 		
 		
@@ -30,7 +30,8 @@ public class Main {
 //            // input = sc.nextInt();
         	switch(input) {
         	case "1":
-        		list.printLendItems();
+        		listLendItems(list,1);
+//        		list.printLendItems();
 //        		System.out.printf("\n%s", lendItemString(item));
         		break;
         	case "2":
@@ -57,26 +58,28 @@ public class Main {
 		
 	public static void addItem(LendItemArrayList list, LendItem p) {
 		list.addLendItems(p);
+		list.next++;
 	}
 	
-	public static void removeLendItem(LendItemArrayList list, int n)
-	{
+	public static void removeLendItem(LendItemArrayList list, int n){
 		list.removeLendItem(n-1);
 	}
 	
-	public static void list(LendItemArrayList list, int n)
-	{
-		for(int i = 0; i < list.length; i++) {
-			
-		}
+	public static void listLendItems(LendItemArrayList list, int format){
+		System.out.printf(lendItemHeadings(format));
+		for(int i = 0; i < list.lendItems.size(); i++) {
+			System.out.printf(lendItemString(list.lendItems.get(i), format));
+		}	
+		System.out.println("\n" + lendItemSeparator(format) + "\n" + list.next + " LendItem(s) in list, " + (list.INITIAL_SIZE - list.next) + " free.");
+//		return list.next;
 	}
 	
-	list.printLendItems();
+	
+//	list.printLendItems();
 	
 	
 	// Displays start menu at the beginning 
-    public static void Menu()
-    {
+    public static void Menu(){
     	System.out.println("\n1) list");
     	System.out.println("2) add");
     	System.out.println("3) remove");
@@ -116,39 +119,53 @@ public class Main {
 		item.description = desc;
 		item.owner = owner;
 		item.lender = lender;
-//		item.ID++;
 		
 		return item;
-	}
-	
-	// Prints out the array list
-//	public static void printList(LendItemArrayList list) {
-////		System.out.println("List is Empty: " + isEmpty(list));
-////		System.out.println("List is Full:  " + isFull(list));
-//		for(int i = 0; i < list.length(); i++) {
-//			if(i >= list.next) {
-//				System.out.print("_ ");
-//				continue;
-//			}
-//			
-//			System.out.print(list.lendItems[i] + " ");
-//		}
-//		System.out.println();
-//		System.out.println();
-//	}
-	
-	
+	}	
 	public static String lendItemString(LendItem it, int format) {
+		LendItemArrayList p = new LendItemArrayList();
         switch (format) {
         case 1:
-            return String.format("%-15.15s %-10.10s %s", /* %-10.10s", lendItemHeadings(format), it.ID, */ it.description, it.lender, /*dateString(it.lendDate),
+            return String.format("\n%3d %-15.15s %-10.10s %s", /* %-10.10s", lendItemSeparator(format), */ p.printPosition(it.id), it.description, it.lender, /*dateString(it.lendDate),
                     dateString(it.returnDate),*/ it.owner);
-//        case 2:
-//            return String.format("%s\n%-15.15s %-10.10s", lendItemHeadings(format), it.description, it.lender);
-//        default:
-//            return String.format("%s\n\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"", lendItemHeadings(format), it.ID, it.description, it.lender,
-//                    dateString(it.lendDate), dateString(it.returnDate), it.owner);
+        case 2:
+            return String.format("%s\n%-15.15s %-10.10s", /*lendItemHeadings(format), */it.description, it.lender);
+        default:
+            return String.format("%s\n\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"", /*lendItemHeadings(format), it.ID,*/ it.description, it.lender,
+                    /*dateString(it.lendDate), dateString(it.returnDate), */it.owner);
 
     }
+	}
+        
+        // Creates heading for tabular display of lend items
+    public static String lendItemHeadings(int format){
+    		String ID = "ID", description = "description", lender = "lender", lendDate = "lend date", returnDate = "return date", owner = "owner";
+    		switch(format) {
+    		case 1:
+    			return String.format("%3s %-15.15s %-10.10s %s\n%s ", ID, description, lender, owner, lendItemSeparator(format));
+    		case 2:
+    			return String.format("%-15.15s %-10.10s\n%s", description, lender, lendItemSeparator(format));
+    		default:
+    			return String.format("%3s %-15.15s %-10.10s %s %s %-10.10s\n%s", ID, description, lender, lendDate, returnDate, owner, lendItemSeparator(format));		
+    		}
+    }
+    	
+        // Creates the separators for the table.
+    	public static String lendItemSeparator(int format)
+    	{
+    		String dashOne = "------------------------------------------------------------------";
+    		String dashTwo = "-------------------------";
+    		String dashDefault = "------------------------------------------------------------------";
+    		switch (format) {
+    		case 1:
+    			return String.format("%s", dashOne);
+    		case 2:
+    			return String.format("%s", dashTwo);
+    		default:
+    			return String.format("%s", dashDefault);
+    		}
+    	
+    	}
+	}
 
-}
+

@@ -1,8 +1,9 @@
 package test;
 import test.Date;
+import test.LendItemArrayList;
 
 public class LendItem {
-//	int ID;
+	int id;
 	String description;
 	String lender;
 //	Date lendDate;
