@@ -192,10 +192,10 @@ public class Main {
                 System.out.printf("day: ");
                 d = Integer.parseInt(sc.nextLine());
 
-                if(y == 0)
-                {
-                    continue;
-                }
+//                if(y == 0)
+//                {
+//                    continue;
+//                }
                 if (y < 1582) {
                     System.out.printf("year cannot be before 1582!\n");
                     continue;
@@ -217,6 +217,8 @@ public class Main {
             dat.year = y;
             return dat;
         }
+    	
+    	
 	}
 
 
