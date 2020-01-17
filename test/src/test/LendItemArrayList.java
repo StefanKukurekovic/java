@@ -14,23 +14,23 @@ public class LendItemArrayList {
 	 public void addLendItems(LendItem item) {
 		 lendItems.add(item);
 	 }
-	 
-	 public int printPosition(LendItem it) {
-		 for(int i = 0; i < lendItems.size(); i++)
-		 {
-			 if(i < lendItems.indexOf(i))
-				 return lendItems.indexOf(it);
-		 }
-		 
-		 return -4;		 
-	 }
-	 
+	 	 
 	 public void removeLendItem(int position) {
 		 LendItem theItem = lendItems.get(position);
 		 lendItems.remove(position);
 	 }
 
+
 	 
+//	 public int printPosition(LendItem it) {
+//		 for(int i = 0; i < lendItems.size(); i++)
+//		 {
+//			 if(i < lendItems.indexOf(i))
+//				 return lendItems.indexOf(it);
+//		 }
+//		 
+//		 return -4;		 
+//	 }
 	 
 	 
 }

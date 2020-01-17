@@ -7,8 +7,8 @@ public class LendItem {
 //	void id = list.printPosition();
 	String description;
 	String lender;
-//	Date lendDate;
-//	Date returnDate;
+	Date lendDate;
+	Date returnDate;
 	String owner;
 	
 	

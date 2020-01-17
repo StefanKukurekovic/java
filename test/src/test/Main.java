@@ -4,6 +4,8 @@ package test;
 //import java.util.List;
 import java.util.Scanner;
 
+import LendItems.Date;
+
 
 public class Main {
 		
@@ -123,17 +125,19 @@ public class Main {
 		item.description = desc;
 		item.owner = owner;
 		item.lender = lender;
-//		addIndex(list);
-//		item.id = list.id;		
+		System.out.printf("lend date:\n");
+        item.lendDate = scanDate(sc);
+//        System.out.printf("return date:\n");
+//        item.returnDate = scanDate(sc);
+        System.out.println("1 item added.");
 		
 		return item;
 	}	
 	public static String lendItemString(LendItem it, int format) { 
-		LendItemArrayList list = new LendItemArrayList();
         switch (format) {
         case 1:
-            return String.format("\n%d %-15.15s %-10.10s %s", /* %-10.10s", lendItemSeparator(format), s */ list.printPosition(it), it.description, it.lender, /*dateString(it.lendDate),
-                    dateString(it.returnDate),*/ it.owner);
+            return String.format("\n%-15.15s %-10.10s %s %s %s", /* %-10.10s", list.printPosition(it), */  it.description, it.lender, dateString(it.lendDate),
+                    dateString(it.returnDate), it.owner);
         case 2:
             return String.format("%s\n%-15.15s %-10.10s", /*lendItemHeadings(format), */it.description, it.lender);
         default:
@@ -148,12 +152,17 @@ public class Main {
     		String ID = "ID", description = "description", lender = "lender", lendDate = "lend date", returnDate = "return date", owner = "owner";
     		switch(format) {
     		case 1:
-    			return String.format("%3s %-15.15s %-10.10s %s\n%s ", ID, description, lender, owner, lendItemSeparator(format));
+    			return String.format("%3s %-15.15s %-10.10s %s %s %s\n%s ", ID, description, lender, lendDate, returnDate, owner, lendItemSeparator(format));
     		case 2:
     			return String.format("%-15.15s %-10.10s\n%s", description, lender, lendItemSeparator(format));
     		default:
     			return String.format("%3s %-15.15s %-10.10s %s %s %-10.10s\n%s", ID, description, lender, lendDate, returnDate, owner, lendItemSeparator(format));		
     		}
+    }
+    
+    
+    private static String dateString(Date d) {
+        return String.format("%04d.%02d.%02d", d.year, d.month, d.day);
     }
     	
         // Creates the separators for the table.
@@ -172,6 +181,42 @@ public class Main {
     		}
     	
     	}
+    	
+    	public static Date scanDate(Scanner sc) {
+            int y, m, d;
+            while(true) {
+                System.out.printf("year: ");
+                y = Integer.parseInt(sc.nextLine());
+                System.out.printf("month: ");
+                m = Integer.parseInt(sc.nextLine());
+                System.out.printf("day: ");
+                d = Integer.parseInt(sc.nextLine());
+
+                if(y == 0)
+                {
+                    continue;
+                }
+                if (y < 1582) {
+                    System.out.printf("year cannot be before 1582!\n");
+                    continue;
+                }
+                if (m < 1 || m > 12) {
+                    System.out.printf("month must be 1-12!\n");
+                    continue;
+                }
+                if (d < 1 || d > 31) {
+                    System.out.printf("day must be 1-31!\n");
+                    continue;
+                }
+
+                break;
+            }
+            Date dat = new Date();
+            dat.day = d;
+            dat.month = m;
+            dat.year = y;
+            return dat;
+        }
 	}
 
 
