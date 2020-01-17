@@ -74,6 +74,10 @@ public class Main {
 //		return list.next;
 	}
 	
+//	public static void addIndex(LendItemArrayList list) {
+//		list.id++;
+//	}
+	
 	
 //	list.printLendItems();
 	
@@ -119,14 +123,16 @@ public class Main {
 		item.description = desc;
 		item.owner = owner;
 		item.lender = lender;
+//		addIndex(list);
+//		item.id = list.id;		
 		
 		return item;
 	}	
-	public static String lendItemString(LendItem it, int format) {
-		LendItemArrayList p = new LendItemArrayList();
+	public static String lendItemString(LendItem it, int format) { 
+		LendItemArrayList list = new LendItemArrayList();
         switch (format) {
         case 1:
-            return String.format("\n%3d %-15.15s %-10.10s %s", /* %-10.10s", lendItemSeparator(format), */ p.printPosition(it.id), it.description, it.lender, /*dateString(it.lendDate),
+            return String.format("\n%d %-15.15s %-10.10s %s", /* %-10.10s", lendItemSeparator(format), s */ list.printPosition(it), it.description, it.lender, /*dateString(it.lendDate),
                     dateString(it.returnDate),*/ it.owner);
         case 2:
             return String.format("%s\n%-15.15s %-10.10s", /*lendItemHeadings(format), */it.description, it.lender);

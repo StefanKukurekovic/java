@@ -3,7 +3,8 @@ import test.Date;
 import test.LendItemArrayList;
 
 public class LendItem {
-	int id;
+	LendItemArrayList list = new LendItemArrayList();
+//	void id = list.printPosition();
 	String description;
 	String lender;
 //	Date lendDate;
