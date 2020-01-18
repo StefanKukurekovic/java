@@ -1,5 +1,6 @@
 package test;
 
+import java.util.Collection;
 //import java.util.ArrayList;
 //import java.util.List;
 import java.util.Scanner;
@@ -45,6 +46,17 @@ public class Main {
         		sc.nextLine();
         		removeLendItem(list, itemNo);
         		break;
+        	case "5":
+        		System.out.print("enter description: ");
+        		String desc = sc.nextLine();
+//        		listLendItems(filterByDescription(list, desc),1);
+        		int count = 0;
+        		System.out.printf(lendItemHeadings(1));
+        		for(int i = 0; i < filterByDescription(list, desc).lendItems.size(); i++) {
+        			System.out.printf(lendItemString(filterByDescription(list, desc).lendItems.get(i), 1));
+        			count++;
+        		}	
+        		System.out.println("\n" + lendItemSeparator(1) + "\n" + count + " LendItem(s) in list, " + (list.INITIAL_SIZE - count) + " free.");
         	case "0":
         		break;
         	default:
@@ -61,10 +73,12 @@ public class Main {
 	public static void addItem(LendItemArrayList list, LendItem p) {
 		list.addLendItems(p);
 		list.next++;
+		p.id = list.next;
 	}
 	
 	public static void removeLendItem(LendItemArrayList list, int n){
 		list.removeLendItem(n-1);
+		System.out.println("1 LendItem (ID=" + n + ") removed.");
 	}
 	
 	public static void listLendItems(LendItemArrayList list, int format){
@@ -75,6 +89,26 @@ public class Main {
 		System.out.println("\n" + lendItemSeparator(format) + "\n" + list.next + " LendItem(s) in list, " + (list.INITIAL_SIZE - list.next) + " free.");
 //		return list.next;
 	}
+	
+//	public static void filterByDescription(LendItemArrayList list, String desc){
+//		listLendItems(list.filterByDescription(list, desc),1);
+//	}
+	
+	public static LendItemArrayList filterByDescription(LendItemArrayList list, String desc){
+    	LendItemArrayList filteredList = new LendItemArrayList();
+		int counter = 0;
+		for(int i = 0; i < list.lendItems.size(); i++) {
+			if(list.lendItems.get(i).description.contains(desc))
+			{
+				filteredList.addLendItems(list.lendItems.get(i));
+				counter++;
+			}
+			list.next = counter;
+		}
+		return filteredList;
+	}
+	
+	
 	
 //	public static void addIndex(LendItemArrayList list) {
 //		list.id++;
@@ -107,8 +141,10 @@ public class Main {
 	// Scans new items
 	public static LendItem scanLendItem(Scanner sc) {
 		String desc = "", lender = "", owner= "";
+		LendItemArrayList list = new LendItemArrayList();
+		int index = 1;
 		
-		while(true) {
+		while(true) {			
 			System.out.printf("description: ");
 			desc = sc.nextLine();
 			
@@ -125,19 +161,27 @@ public class Main {
 		item.description = desc;
 		item.owner = owner;
 		item.lender = lender;
-		System.out.printf("lend date:\n");
-        item.lendDate = scanDate(sc);
+//		item.id = index;
+//		index++;
+//		list.next++;
+//		System.out.printf("lend date:\n");
+//        item.lendDate = scanDate(sc);
 //        System.out.printf("return date:\n");
 //        item.returnDate = scanDate(sc);
         System.out.println("1 item added.");
 		
 		return item;
 	}	
+	
+	
+	
 	public static String lendItemString(LendItem it, int format) { 
+		LendItemArrayList list = new LendItemArrayList();
+//		int index = 1;
         switch (format) {
         case 1:
-            return String.format("\n%-15.15s %-10.10s %s %s %s", /* %-10.10s", list.printPosition(it), */  it.description, it.lender, dateString(it.lendDate),
-                    dateString(it.returnDate), it.owner);
+            return String.format("\n%3d %-15.15s %-10.10s %s %d", /* %-10.10s", list.printPosition(it), */it.id, it.description, it.lender, /*dateString(it.lendDate),
+                    dateString(it.returnDate), */it.owner, list.lendItems.indexOf(it));
         case 2:
             return String.format("%s\n%-15.15s %-10.10s", /*lendItemHeadings(format), */it.description, it.lender);
         default:
@@ -152,7 +196,7 @@ public class Main {
     		String ID = "ID", description = "description", lender = "lender", lendDate = "lend date", returnDate = "return date", owner = "owner";
     		switch(format) {
     		case 1:
-    			return String.format("%3s %-15.15s %-10.10s %s %s %s\n%s ", ID, description, lender, lendDate, returnDate, owner, lendItemSeparator(format));
+    			return String.format("%3s %-15.15s %-10.10s %s %s %s\n%s", ID, description, lender, lendDate, returnDate, owner, lendItemSeparator(format));
     		case 2:
     			return String.format("%-15.15s %-10.10s\n%s", description, lender, lendItemSeparator(format));
     		default:
