@@ -5,9 +5,6 @@ import java.util.Collection;
 //import java.util.List;
 import java.util.Scanner;
 
-import LendItems.Date;
-
-
 public class Main {
 		
 		private static Scanner sc = new Scanner(System.in);
@@ -161,13 +158,11 @@ public class Main {
 		item.description = desc;
 		item.owner = owner;
 		item.lender = lender;
-//		item.id = index;
-//		index++;
-//		list.next++;
-//		System.out.printf("lend date:\n");
-//        item.lendDate = scanDate(sc);
-//        System.out.printf("return date:\n");
-//        item.returnDate = scanDate(sc);
+
+		System.out.printf("lend date:\n");
+        item.lendDate = scanDate(sc);
+        System.out.printf("return date:\n");
+        item.returnDate = scanDate(sc);
         System.out.println("1 item added.");
 		
 		return item;
@@ -180,8 +175,8 @@ public class Main {
 //		int index = 1;
         switch (format) {
         case 1:
-            return String.format("\n%3d %-15.15s %-10.10s %s %d", /* %-10.10s", list.printPosition(it), */it.id, it.description, it.lender, /*dateString(it.lendDate),
-                    dateString(it.returnDate), */it.owner, list.lendItems.indexOf(it));
+            return String.format("\n%3d %-15.15s %-10.10s %s %s %s", /* %-10.10s", list.printPosition(it), */it.id, it.description, it.lender, dateString(it.lendDate),
+                    dateString(it.returnDate), it.owner);
         case 2:
             return String.format("%s\n%-15.15s %-10.10s", /*lendItemHeadings(format), */it.description, it.lender);
         default:
@@ -206,6 +201,10 @@ public class Main {
     
     
     private static String dateString(Date d) {
+    	if(d == null)
+    	{
+    		return String.format("%04d.%02d.%02d", d.year, d.month, d.day);
+    	}
         return String.format("%04d.%02d.%02d", d.year, d.month, d.day);
     }
     	
@@ -260,6 +259,199 @@ public class Main {
             dat.month = m;
             dat.year = y;
             return dat;
+        }
+    	
+//    	public static LendItemArrayList sortListByDate(LendItemArrayList list){
+//   		 LendItemArrayList sortedList = list.createCopy(list);
+//   			boolean swapped; 
+//   			int i=0; 
+//   			do { 
+//   				swapped = false; 
+//   				for (int j = 1; j < sortedList.next - i; j++){ 
+//   					if (compareDates(sortedList.list.lendItems.get[j - 1].release, sortedList.movies[j].release)) { 
+//   						Movie tmp = sortedList.movies[j];
+//   						sortedList.movies[j] = sortedList.movies[j-1];
+//   						sortedList.movies[j-1] = tmp;
+//   						swapped = true; 
+//   					}
+//   				}
+//   				i++;			
+//   			}
+//   			while (swapped);
+//   			return sortedList;
+//   		}
+    	
+    	
+    	public static int compare(LendItem it1, LendItem it2, int method) {
+            switch (method) {
+            case 1:
+                return compareByLendDate(it1, it2);
+            case 2:
+                return compareByReturnDate(it1, it2);
+            case 3:
+                return compareByLender(it1, it2);
+            case 4:
+                return compareByOwner(it1, it2);
+            default:
+                return compareByDescription(it1, it2);
+            }
+        }
+
+        /**
+         * compares two LendItems by lend date <br>
+         * returns -1 if the lend date of it1 is before than of it2, 1 if the other way
+         * round, 0 if they are the same.<br>
+         * Note: any two null-LendItems are equal and any null-LendItem goes before any
+         * non-LendItem event.
+         * 
+         * @param it1
+         * @param it2
+         * @return
+         */
+        public static int compareByLendDate(LendItem it1, LendItem it2) {
+            if (it1 == null && it2 == null)
+                return 0;
+            if (it1 == null)
+                return -1;
+            if (it2 == null)
+                return 1;
+
+            return compare(it1.lendDate, it2.lendDate);
+        }
+
+        /**
+         * compares two LendItems by return date <br>
+         * returns -1 if the return date of it1 is before than of it2, 1 if the other
+         * way round, 0 if they are the same. <br>
+         * Note: any two null-LendItems are equal and any null-LendItem goes before any
+         * non-LendItem event.
+         * 
+         * @param it1
+         * @param it2
+         * @return
+         */
+        public static int compareByReturnDate(LendItem it1, LendItem it2) {
+            if (it1 == null && it2 == null)
+                return 0;
+            if (it1 == null)
+                return -1;
+            if (it2 == null)
+                return 1;
+
+            return compare(it1.returnDate, it2.returnDate);
+        }
+
+        /**
+         * compares two LendItems by description<br>
+         * returns -1 if the description of it1 is before than of it2, 1 if the other
+         * way round, 0 if they are the same. <br>
+         * descriptions are compared lexicographically (see String.compareTo) <br>
+         * Note: any two null-LendItems are equal and any null-LendItem goes before any
+         * non-LendItem event.
+         * 
+         * @param it1
+         * @param it2
+         * @return
+         */
+        public static int compareByDescription(LendItem it1, LendItem it2) {
+            if (it1 == null && it2 == null)
+                return 0;
+            if (it1 == null)
+                return -1;
+            if (it2 == null)
+                return 1;
+
+            int res = it1.description.compareTo(it2.description);
+            if (res > 0)
+                return 1;
+            if (res < 0)
+                return -1;
+            return 0;
+        }
+
+        /**
+         * compares two Date<br>
+         * returns -1 if d1 is before it2, 1 if the other way round, 0 if they are the
+         * same. <br>
+         * Note: any two null-Dates are equal and any null-Dates goes before any
+         * non-null Date.
+         * 
+         * @param it1
+         * @param it2
+         * @return
+         */
+        public static int compare(Date d1, Date d2) {
+            if (d1 == null && d2 == null)
+                return 0;
+            if (d1 == null)
+                return -1;
+            if (d2 == null)
+                return 1;
+
+            int res = (d1.day + d1.month * 100 + d1.year * 10000) - (d2.day + d2.month * 100 + d2.year * 10000);
+
+            if (res > 0)
+                return 1;
+            if (res < 0)
+                return -1;
+            return 0;
+
+        }
+
+        /**
+         * compares two LendItems by lender <br>
+         * returns -1 if the lender of it1 is before than of it2, 1 if the other way
+         * round, 0 if they are the same. <br>
+         * lenders are compared lexicographically (see String.compareTo) <br>
+         * Note: any two null-LendItems are equal and any null-LendItem goes before any
+         * non-LendItem event.
+         * 
+         * @param it1
+         * @param it2
+         * @return
+         */
+        public static int compareByLender(LendItem it1, LendItem it2) {
+            if (it1 == null && it2 == null)
+                return 0;
+            if (it1 == null)
+                return -1;
+            if (it2 == null)
+                return 1;
+
+            int res = it1.lender.compareTo(it2.lender);
+            if (res > 0)
+                return 1;
+            if (res < 0)
+                return -1;
+            return 0;
+        }
+
+        /**
+         * compares two LendItems by owner <br>
+         * returns -1 if the owner of it1 is before than of it2, 1 if the other way
+         * round, 0 if they are the same. <br>
+         * owner are compared lexicographically (see String.compareTo) <br>
+         * Note: any two null-LendItems are equal and any null-LendItem goes before any
+         * non-LendItem event.
+         * 
+         * @param it1
+         * @param it2
+         * @return
+         */
+        public static int compareByOwner(LendItem it1, LendItem it2) {
+            if (it1 == null && it2 == null)
+                return 0;
+            if (it1 == null)
+                return -1;
+            if (it2 == null)
+                return 1;
+
+            int res = it1.owner.compareTo(it2.owner);
+            if (res > 0)
+                return 1;
+            if (res < 0)
+                return -1;
+            return 0;
         }
     	
     	

@@ -2,8 +2,12 @@ package test;
 import test.LendItem;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Scanner;
+		
+		
 
 public class LendItemArrayList {
+	 private static Scanner sc = new Scanner(System.in);
 	 int INITIAL_SIZE = 20;
 	 boolean resizeable = false;
 	 int next = 0;
@@ -17,6 +21,16 @@ public class LendItemArrayList {
 	 public void removeLendItem(int position) {
 		 LendItem theItem = lendItems.get(position);
 		 lendItems.remove(theItem);
+	 }
+	 
+	 public static Date dateNotSet(Scanner sc)
+	 {
+		 System.out.printf("lend date:\n");
+		 if()
+	     item.lendDate = scanDate(sc);
+	     System.out.printf("return date:\n");
+	     item.returnDate = scanDate(sc);
+	     System.out.println("1 item added.");
 	 }
 
 	 
@@ -40,16 +54,16 @@ public class LendItemArrayList {
 //			return sortedList;
 //		}
 	 
-//	 public static LendItemArrayList createCopy(LendItemArrayList list){
-//		 LendItemArrayList copy = new LendItemArrayList();
-////		 copy.lendItems = lendItems.size();
-////			copy.lendItems = new LendItemArrayList[list.lendItems.size()]; //new Movie[list.movies.length];
-//			for(int i = 0; i < list.next; i++){
-//				copy.addLendItems(list.lendItems.get(i));
-//			}
-//			copy.next = list.next;
-//			return copy;
-//		}
+	 public static LendItemArrayList createCopy(LendItemArrayList list){
+		 LendItemArrayList copy = new LendItemArrayList();
+//		 copy.lendItems = lendItems.size();
+//			copy.lendItems = new LendItemArrayList[list.lendItems.size()]; //new Movie[list.movies.length];
+			for(int i = 0; i < list.next; i++){
+				copy.addLendItems(list.lendItems.get(i));
+			}
+			copy.next = list.next;
+			return copy;
+		}
 	 
 	 
 //	 public int printPosition(LendItem it) {
