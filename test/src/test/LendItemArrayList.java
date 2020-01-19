@@ -8,14 +8,29 @@ import java.util.Scanner;
 
 public class LendItemArrayList {
 	 private static Scanner sc = new Scanner(System.in);
-	 int INITIAL_SIZE = 20;
-	 boolean resizeable = false;
+	 int INITIAL_SIZE = 5;
+	 boolean resizable = false;
 	 int next = 0;
 	 
 	 List<LendItem> lendItems = new ArrayList<LendItem>(INITIAL_SIZE);
 	 
-	 public void addLendItems(LendItem item) {
+	 public void addLendItems(LendItem item) 
+	 {
+		 LendItemArrayList list = new LendItemArrayList();
+		 
+		 if(list.next == list.INITIAL_SIZE)
+		 {
+			 resizeList(list);
+		 }
 		 lendItems.add(item);
+	 }
+	 
+	 private static void resizeList(LendItemArrayList list) 
+	 {
+		 
+		 list.resizable = true;			
+		 List<LendItem> newLendItems = new ArrayList<LendItem>(list.lendItems.size() * 2);
+		 list.lendItems = newLendItems;
 	 }
 	 	 
 	 public void removeLendItem(int position) {
