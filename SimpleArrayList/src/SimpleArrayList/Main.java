@@ -34,7 +34,6 @@ public class Main {
 	}
 	
 	public static boolean isFull(SimpleArrayListInt list) {
-		return list.next == list.data.length;
 	}
 	
 	public static void add(SimpleArrayListInt list, int value) {

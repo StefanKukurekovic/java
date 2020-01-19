@@ -21,6 +21,7 @@ public class LendItemArrayList {
 		 if(list.next == list.INITIAL_SIZE)
 		 {
 			 resizeList(list);
+			 list.INITIAL_SIZE = list.INITIAL_SIZE * 2;
 		 }
 		 lendItems.add(item);
 	 }
@@ -30,30 +31,25 @@ public class LendItemArrayList {
 		 
 		 list.resizable = true;			
 		 List<LendItem> newLendItems = new ArrayList<LendItem>(list.lendItems.size() * 2);
-		 list.INITIAL_SIZE = list.INITIAL_SIZE * 2;
+		 
 		 list.lendItems = newLendItems;
+		 
 	 }
 	 
-	 public static int currentInitialSize()
-	 {
-		 LendItemArrayList list = new LendItemArrayList();
-		 return list.INITIAL_SIZE;
-	 }
-	 	 
 	 public void removeLendItem(int position) {
 		 LendItem theItem = lendItems.get(position);
 		 lendItems.remove(theItem);
 	 }
 	 
-	 public static Date dateNotSet(Scanner sc)
-	 {
-		 System.out.printf("lend date:\n");
-		 if()
-	     item.lendDate = scanDate(sc);
-	     System.out.printf("return date:\n");
-	     item.returnDate = scanDate(sc);
-	     System.out.println("1 item added.");
-	 }
+//	 public static Date dateNotSet(Scanner sc)
+//	 {
+//		 System.out.printf("lend date:\n");
+//		 if()
+//	     item.lendDate = scanDate(sc);
+//	     System.out.printf("return date:\n");
+//	     item.returnDate = scanDate(sc);
+//	     System.out.println("1 item added.");
+//	 }
 
 	 
 //	 public static LendItemArrayList sortListByDate(LendItemArrayList list){
