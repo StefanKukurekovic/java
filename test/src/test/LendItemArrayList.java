@@ -25,12 +25,19 @@ public class LendItemArrayList {
 		 lendItems.add(item);
 	 }
 	 
-	 private static void resizeList(LendItemArrayList list) 
+	 public static void resizeList(LendItemArrayList list) 
 	 {
 		 
 		 list.resizable = true;			
 		 List<LendItem> newLendItems = new ArrayList<LendItem>(list.lendItems.size() * 2);
+		 list.INITIAL_SIZE = list.INITIAL_SIZE * 2;
 		 list.lendItems = newLendItems;
+	 }
+	 
+	 public static int currentInitialSize()
+	 {
+		 LendItemArrayList list = new LendItemArrayList();
+		 return list.INITIAL_SIZE;
 	 }
 	 	 
 	 public void removeLendItem(int position) {
