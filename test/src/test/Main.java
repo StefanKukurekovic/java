@@ -100,7 +100,7 @@ public class Main {
 	
 	public static void listLendItems(LendItemArrayList list, int format){
 		System.out.printf(lendItemHeadings(format));
-		for(int i = 0; i < list.lendItems.length; i++) {
+		for(int i = 0; i < list.next; i++) {
 			System.out.printf(lendItemString(list.lendItems[i], format));
 		}	
 		System.out.println("\n" + lendItemSeparator(format) + "\n" + list.next + " LendItem(s) in list, " + (list.INITIAL_SIZE - list.next) + " free.");
