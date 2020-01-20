@@ -37,17 +37,17 @@ public class Main {
         		sc.nextLine();
         		removeLendItem(list, itemNo);
         		break;
-        	case "5":
-        		System.out.print("enter description: ");
-        		String desc = sc.nextLine();
-//        		listLendItems(filterByDescription(list, desc),1);
-        		int count = 0;
-        		System.out.printf(lendItemHeadings(1));
-        		for(int i = 0; i < filterByDescription(list, desc).lendItems.length; i++) {
-        			System.out.printf(lendItemString(filterByDescription(list, desc).lendItems.get(i), 1));
-        			count++;
-        		}	
-        		System.out.println("\n" + lendItemSeparator(1) + "\n" + count + " LendItem(s) in list, " + (list.INITIAL_SIZE - count) + " free.");
+//        	case "5":
+//        		System.out.print("enter description: ");
+//        		String desc = sc.nextLine();
+////        		listLendItems(filterByDescription(list, desc),1);
+//        		int count = 0;
+//        		System.out.printf(lendItemHeadings(1));
+//        		for(int i = 0; i < filterByDescription(list, desc).lendItems.length; i++) {
+//        			System.out.printf(lendItemString(filterByDescription(list, desc).lendItems.get(i), 1));
+//        			count++;
+//        		}	
+//        		System.out.println("\n" + lendItemSeparator(1) + "\n" + count + " LendItem(s) in list, " + (list.INITIAL_SIZE - count) + " free.");
         	case "0":
         		break;
         	default:
@@ -195,10 +195,9 @@ public class Main {
 	
 	public static String lendItemString(LendItem it, int format) { 
 		LendItemArrayList list = new LendItemArrayList();
-		int index = list.lendItems(i);
         switch (format) {
         case 1:
-            return String.format("\n %-15.15s", it.description/* %-10.10s %s %s %s",  %-10.10s", list.printPosition(it), it.id, it.description, it.lender, dateString(it.lendDate),
+            return String.format("\n %-15.15s %d", it.description, it.id+1/* %-10.10s %s %s %s",  %-10.10s", list.printPosition(it), it.id, it.description, it.lender, dateString(it.lendDate),
                     dateString(it.returnDate), it.owner*/);
         case 2:
             return String.format("%s\n%-15.15s %-10.10s", /*lendItemHeadings(format), */it.description, it.lender);

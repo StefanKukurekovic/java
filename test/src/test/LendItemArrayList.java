@@ -11,40 +11,6 @@ public class LendItemArrayList {
 	 int next = 0;
 	 LendItem[] lendItems = new LendItem[INITIAL_SIZE];
 	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
 	 public boolean addLendItems(LendItem item) 
 	 {
 		 LendItemArrayList list = new LendItemArrayList();
