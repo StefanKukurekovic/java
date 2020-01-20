@@ -1,5 +1,4 @@
 package test;
-import test.LendItem;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -7,32 +6,94 @@ import java.util.Scanner;
 		
 
 public class LendItemArrayList {
-	 private static Scanner sc = new Scanner(System.in);
-	 int INITIAL_SIZE = 5;
-	 boolean resizable = false;
+	 int INITIAL_SIZE = 20;
+	 boolean resizable = false;	
 	 int next = 0;
+	 LendItem[] lendItems = new LendItem[INITIAL_SIZE];
 	 
-	 List<LendItem> lendItems = new ArrayList<LendItem>(INITIAL_SIZE);
 	 
-	 public void addLendItems(LendItem item) 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 public boolean addLendItems(LendItem item) 
 	 {
 		 LendItemArrayList list = new LendItemArrayList();
 		 
-		 if(list.next == list.INITIAL_SIZE)
+		 if(list.next == list.INITIAL_SIZE && list.resizable)
 		 {
+			 System.out.println("Item could not be added to the list - [List is full and not resizable]");
+			 return false;
+		 }
+		 
+		 if(list.next == list.INITIAL_SIZE){
 			 resizeList(list);
-			 list.INITIAL_SIZE = list.INITIAL_SIZE * 2;
 		 }
 		 lendItems.add(item);
+		 return true;
+	 }
+	 
+	 public static int index()
+	 {   
+		 int index = 0;
+		 LendItemArrayList list = new LendItemArrayList();
+		 for(int i = 0; i < list.lendItems.size(); i++)
+		 {
+			 index = list.lendItems(i);
+		 }
+		 
 	 }
 	 
 	 public static void resizeList(LendItemArrayList list) 
 	 {
-		 
+		 // Set "resizable" variable to true
 		 list.resizable = true;			
+		 
+		 // Create new temporary list called newLendItems with double the size of INITIAL_SIZE
 		 List<LendItem> newLendItems = new ArrayList<LendItem>(list.lendItems.size() * 2);
 		 
-		 list.lendItems = newLendItems;
+		 // Migrate all values to the new list, and then migrate the same 
+		 // values to the original list 
+		 for(int i = 0; i < list.lendItems.size(); i++)
+		 {
+			 newLendItems.add(list.lendItems.get(i));
+		 }
+		 
+		 for(int i = 0; i < newLendItems.size(); i++)
+		 {
+			 list.lendItems.add(newLendItems.get(i));
+		 }
+		 
+		 list.INITIAL_SIZE = list.INITIAL_SIZE * 2;
 		 
 	 }
 	 

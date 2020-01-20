@@ -11,16 +11,10 @@ public class Main {
 		
 	public static void main(String[] args) {
 		LendItemArrayList list = new LendItemArrayList();
-//		LendItem item = new LendItem();
 		
 		
 		
-//		Menu();
-//		item = scanLendItem(sc);
-//		add(list, item);
-//		System.out.printf("\n%s", lendItemString(item));
-//		printList(list);
-//		printList(list);
+
 		
 		String input = "";
 		do {
@@ -49,7 +43,7 @@ public class Main {
 //        		listLendItems(filterByDescription(list, desc),1);
         		int count = 0;
         		System.out.printf(lendItemHeadings(1));
-        		for(int i = 0; i < filterByDescription(list, desc).lendItems.size(); i++) {
+        		for(int i = 0; i < filterByDescription(list, desc).lendItems.length; i++) {
         			System.out.printf(lendItemString(filterByDescription(list, desc).lendItems.get(i), 1));
         			count++;
         		}	
@@ -67,11 +61,37 @@ public class Main {
     }
 		
 		
-	public static void addItem(LendItemArrayList list, LendItem p) {
-		list.addLendItems(p);
-		list.next++;
-		p.id = list.next;
+	public static boolean addItem(LendItemArrayList list, LendItem p) {
+		if(list.resizable) {
+			if(list.next < list.lendItems.length)
+			{
+				p.id = list.next;
+				list.lendItems[list.next++] = p;
+				return true;
+			}else if(list.next == list.lendItems.length){
+				LendItem[] tempList = new LendItem[list.INITIAL_SIZE * 2];
+				for(int i = 0; i < list.next; i++)
+				{
+					tempList[i] = list.lendItems[i];			
+				}
+				p.id = list.next;
+				tempList[list.next++] = p;
+				list.lendItems = tempList;
+				return true;
+			}else {
+				return false;
+			}
+		}else {
+			if(list.next < list.lendItems.length) {
+				p.id = list.next;
+				list.lendItems[list.next++] = p;
+				return true;
+			}else {
+				return false;
+			}
+		}
 	}
+
 	
 	public static void removeLendItem(LendItemArrayList list, int n){
 		list.removeLendItem(n-1);
@@ -80,17 +100,17 @@ public class Main {
 	
 	public static void listLendItems(LendItemArrayList list, int format){
 		System.out.printf(lendItemHeadings(format));
-		for(int i = 0; i < list.lendItems.size(); i++) {
-			System.out.printf(lendItemString(list.lendItems.get(i), format));
+		for(int i = 0; i < list.lendItems.length; i++) {
+			System.out.printf(lendItemString(list.lendItems[i], format));
 		}	
 		System.out.println("\n" + lendItemSeparator(format) + "\n" + list.next + " LendItem(s) in list, " + (list.INITIAL_SIZE - list.next) + " free.");
-//		return list.next;
 	}
+//		return list.next;
 	
 //	public static void filterByDescription(LendItemArrayList list, String desc){
 //		listLendItems(list.filterByDescription(list, desc),1);
 //	}
-	
+	/* ----------------------------------------------------------- OVO JE RADILO -----------------------------------------------------------
 	public static LendItemArrayList filterByDescription(LendItemArrayList list, String desc){
     	LendItemArrayList filteredList = new LendItemArrayList();
 		int counter = 0;
@@ -115,16 +135,7 @@ public class Main {
 		}
 		return -1;
 	}
-	
-	
-	
-	
-//	public static void addIndex(LendItemArrayList list) {
-//		list.id++;
-//	}
-	
-	
-//	list.printLendItems();
+	----------------------------------------------------------- OVO JE RADILO -----------------------------------------------------------*/
 	
 	
 	// Displays start menu at the beginning 
@@ -183,7 +194,8 @@ public class Main {
 	
 	
 	public static String lendItemString(LendItem it, int format) { 
-
+		LendItemArrayList list = new LendItemArrayList();
+		int index = list.lendItems(i);
         switch (format) {
         case 1:
             return String.format("\n %-15.15s", it.description/* %-10.10s %s %s %s",  %-10.10s", list.printPosition(it), it.id, it.description, it.lender, dateString(it.lendDate),
