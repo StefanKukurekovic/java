@@ -11,62 +11,40 @@ public class LendItemArrayList {
 	 int next = 0;
 	 LendItem[] lendItems = new LendItem[INITIAL_SIZE];
 	 
-	 public boolean addLendItems(LendItem item) 
-	 {
-		 LendItemArrayList list = new LendItemArrayList();
-		 
-		 if(list.next == list.INITIAL_SIZE && list.resizable)
-		 {
-			 System.out.println("Item could not be added to the list - [List is full and not resizable]");
-			 return false;
-		 }
-		 
-		 if(list.next == list.INITIAL_SIZE){
-			 resizeList(list);
-		 }
-		 lendItems.add(item);
-		 return true;
-	 }
+//	 public boolean addLendItems(LendItem item) 
+//	 {
+//		 LendItemArrayList list = new LendItemArrayList();
+//		 
+//		 if(list.next == list.INITIAL_SIZE && list.resizable)
+//		 {
+//			 System.out.println("Item could not be added to the list - [List is full and not resizable]");
+//			 return false;
+//		 }
+//		 
+//		 if(list.next == list.INITIAL_SIZE){
+//			 resizeList(list);
+//		 }
+//		 lendItems.add(item);
+//		 return true;
+//	 }
 	 
-	 public static int index()
-	 {   
-		 int index = 0;
-		 LendItemArrayList list = new LendItemArrayList();
-		 for(int i = 0; i < list.lendItems.size(); i++)
-		 {
-			 index = list.lendItems(i);
-		 }
-		 
-	 }
+//	 public static int index()
+//	 {   
+//		 int index = 0;
+//		 LendItemArrayList list = new LendItemArrayList();
+//		 for(int i = 0; i < list.lendItems.size(); i++)
+//		 {
+//			 index = list.lendItems(i);
+//		 }
+//		 
+//	 }
 	 
-	 public static void resizeList(LendItemArrayList list) 
-	 {
-		 // Set "resizable" variable to true
-		 list.resizable = true;			
-		 
-		 // Create new temporary list called newLendItems with double the size of INITIAL_SIZE
-		 List<LendItem> newLendItems = new ArrayList<LendItem>(list.lendItems.size() * 2);
-		 
-		 // Migrate all values to the new list, and then migrate the same 
-		 // values to the original list 
-		 for(int i = 0; i < list.lendItems.size(); i++)
-		 {
-			 newLendItems.add(list.lendItems.get(i));
-		 }
-		 
-		 for(int i = 0; i < newLendItems.size(); i++)
-		 {
-			 list.lendItems.add(newLendItems.get(i));
-		 }
-		 
-		 list.INITIAL_SIZE = list.INITIAL_SIZE * 2;
-		 
-	 }
 	 
-	 public void removeLendItem(int position) {
-		 LendItem theItem = lendItems.get(position);
-		 lendItems.remove(theItem);
-	 }
+	 
+//	 public void removeLendItem(int position) {
+//		 LendItem theItem = ;
+//		 lendItems.remove(theItem);
+//	 }
 	 
 //	 public static Date dateNotSet(Scanner sc)
 //	 {
@@ -99,16 +77,7 @@ public class LendItemArrayList {
 //			return sortedList;
 //		}
 	 
-	 public static LendItemArrayList createCopy(LendItemArrayList list){
-		 LendItemArrayList copy = new LendItemArrayList();
-//		 copy.lendItems = lendItems.size();
-//			copy.lendItems = new LendItemArrayList[list.lendItems.size()]; //new Movie[list.movies.length];
-			for(int i = 0; i < list.next; i++){
-				copy.addLendItems(list.lendItems.get(i));
-			}
-			copy.next = list.next;
-			return copy;
-		}
+	
 	 
 	 
 //	 public int printPosition(LendItem it) {

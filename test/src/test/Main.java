@@ -31,12 +31,12 @@ public class Main {
         	case "2":
         		addItem(list, scanLendItem(sc));
         		break;
-        	case "3":
-        		System.out.print("enter ID of LendItem to be removed: ");
-        		int itemNo = sc.nextInt();
-        		sc.nextLine();
-        		removeLendItem(list, itemNo);
-        		break;
+//        	case "3":
+//        		System.out.print("enter ID of LendItem to be removed: ");
+//        		int itemNo = sc.nextInt();
+//        		sc.nextLine();
+//        		removeLendItem(list, itemNo);
+//        		break;
 //        	case "5":
 //        		System.out.print("enter description: ");
 //        		String desc = sc.nextLine();
@@ -93,10 +93,10 @@ public class Main {
 	}
 
 	
-	public static void removeLendItem(LendItemArrayList list, int n){
-		list.removeLendItem(n-1);
-		System.out.println("1 LendItem (ID=" + n + ") removed.");
-	}
+//	public static void removeLendItem(LendItemArrayList list, int n){
+//		list.removeLendItem(n-1);
+//		System.out.println("1 LendItem (ID=" + n + ") removed.");
+//	}
 	
 	public static void listLendItems(LendItemArrayList list, int format){
 		System.out.printf(lendItemHeadings(format));
@@ -162,25 +162,24 @@ public class Main {
 	public static LendItem scanLendItem(Scanner sc) {
 		String desc = "", lender = "", owner= "";
 		LendItemArrayList list = new LendItemArrayList();
-		int index = 1;
 		
 		while(true) {			
 			System.out.printf("description: ");
 			desc = sc.nextLine();
 			
-//			System.out.printf("lender: ");
-//			lender = sc.nextLine();
-//			
-//			System.out.printf("owner: ");
-//			owner = sc.nextLine();
+			System.out.printf("lender: ");
+			lender = sc.nextLine();
+			
+			System.out.printf("owner: ");
+			owner = sc.nextLine();
 			
 			break;
 		}
 		
 		LendItem item = new LendItem();
 		item.description = desc;
-//		item.owner = owner;
-//		item.lender = lender;
+		item.owner = owner;
+		item.lender = lender;
 //
 //		System.out.printf("lend date:\n");
 //        item.lendDate = scanDate(sc);
@@ -194,11 +193,9 @@ public class Main {
 	
 	
 	public static String lendItemString(LendItem it, int format) { 
-		LendItemArrayList list = new LendItemArrayList();
         switch (format) {
         case 1:
-            return String.format("\n %-15.15s %d", it.description, it.id+1/* %-10.10s %s %s %s",  %-10.10s", list.printPosition(it), it.id, it.description, it.lender, dateString(it.lendDate),
-                    dateString(it.returnDate), it.owner*/);
+            return String.format("\n%3d %-15.15s %-10.10s %-10.10s %02d", it.id+1, it.description, it.lender,/* dateString(it.lendDate), dateString(it.returnDate),*/ it.owner, it.id);
         case 2:
             return String.format("%s\n%-15.15s %-10.10s", /*lendItemHeadings(format), */it.description, it.lender);
         default:
