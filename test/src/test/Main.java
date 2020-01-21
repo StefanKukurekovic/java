@@ -41,12 +41,14 @@ public class Main {
         	case "5":
         		System.out.print("enter description: ");
         		String desc = sc.nextLine();
-//        		listLendItems(filterByDescription(list, desc),1);
         		int count = 0;
         		System.out.printf(lendItemHeadings(1));
-        		for(int i = 0; i < filterByDescription(list, desc).lendItems.length; i++) {
-        			System.out.printf(lendItemString(filterByDescription(list, desc).lendItems[i], 1));
-        			count++;
+        		for(int i = 0; i < filterByDescription(list, desc).lendItems.length-1; i++) {
+        			if(filterByDescription(list, desc).lendItems[i] != null)
+        			{
+        				System.out.printf(lendItemString(filterByDescription(list, desc).lendItems[i], 1));
+        				count++;
+        			}
         		}	
         		System.out.println("\n" + lendItemSeparator(1) + "\n" + count + " LendItem(s) in list, " + (list.INITIAL_SIZE - count) + " free.");
         	case "0":
@@ -146,6 +148,8 @@ public class Main {
 			System.out.printf(lendItemString(list.lendItems[i], format));
 		}		
 		
+		System.out.printf("\n" + lendItemSeparator(format));
+		
 		return list.next;
 	}
 	
@@ -238,7 +242,7 @@ public class Main {
 		LendItemArrayList list = new LendItemArrayList();
         switch (format) {
         case 1:
-            return String.format("\n%3d %-15.15s %-10.10s %-10.10s %02d", it.id, it.description, it.lender,/* dateString(it.lendDate), dateString(it.returnDate),*/ it.owner, it.id-1);
+            return String.format("\n%3d %-15.15s %-10.10s %-10.10s (%02d)", it.id, it.description, it.lender,/* dateString(it.lendDate), dateString(it.returnDate),*/ it.owner, it.id-1);
         case 2:
             return String.format("%s\n%-15.15s %-10.10s", /*lendItemHeadings(format), */it.description, it.lender);
         default:
@@ -263,9 +267,12 @@ public class Main {
     
     public static LendItemArrayList filterByDescription(LendItemArrayList list, String desc){
     	
-    	LendItemArrayList filteredList = new LendItemArrayList();		
+    	LendItemArrayList filteredList = new LendItemArrayList();	
     	
-		for(int i = 0; i < list.next; i++) {
+//    	if(desc == null || desc.length() == 0) return null;
+//    	if(list == null || list.next == 0) return null;
+    	
+		for(int i = 0; i < list.lendItems.length; i++) {
 			if(list.lendItems[i] != null)
 			{
 				if(list.lendItems[i].description.contains(desc))
@@ -307,6 +314,7 @@ public class Main {
     
     
     private static String dateString(Date d) {
+    	String notSet = "<not set>";
     	if(d == null)
     	{
     		return String.format("%04d.%02d.%02d", d.year, d.month, d.day);
