@@ -24,30 +24,31 @@ public class Main {
 //            // input = sc.nextInt();
         	switch(input) {
         	case "1":
-        		System.out.println(listLendItems(list,1) + " LendItem(s) in list, " + (list.INITIAL_SIZE - list.next) + " free.");
+        		list(list,1);
+        		System.out.println("\n" + list.next + " LendItem(s) in list, " + (list.INITIAL_SIZE - list.next) + " free.");
 //        		list.printLendItems();
 //        		System.out.printf("\n%s", lendItemString(item));
         		break;
         	case "2":
         		addItem(list, scanLendItem(sc));
         		break;
-//        	case "3":
-//        		System.out.print("enter ID of LendItem to be removed: ");
-//        		int itemNo = sc.nextInt();
-//        		sc.nextLine();
-//        		removeLendItem(list, itemNo);
-//        		break;
-//        	case "5":
-//        		System.out.print("enter description: ");
-//        		String desc = sc.nextLine();
-////        		listLendItems(filterByDescription(list, desc),1);
-//        		int count = 0;
-//        		System.out.printf(lendItemHeadings(1));
-//        		for(int i = 0; i < filterByDescription(list, desc).lendItems.length; i++) {
-//        			System.out.printf(lendItemString(filterByDescription(list, desc).lendItems.get(i), 1));
-//        			count++;
-//        		}	
-//        		System.out.println("\n" + lendItemSeparator(1) + "\n" + count + " LendItem(s) in list, " + (list.INITIAL_SIZE - count) + " free.");
+        	case "3":
+        		System.out.print("enter ID of LendItem to be removed: ");
+        		int itemNo = sc.nextInt();
+        		sc.nextLine();
+        		remove(list, itemNo);
+        		break;
+        	case "5":
+        		System.out.print("enter description: ");
+        		String desc = sc.nextLine();
+//        		listLendItems(filterByDescription(list, desc),1);
+        		int count = 0;
+        		System.out.printf(lendItemHeadings(1));
+        		for(int i = 0; i < filterByDescription(list, desc).lendItems.length; i++) {
+        			System.out.printf(lendItemString(filterByDescription(list, desc).lendItems[i], 1));
+        			count++;
+        		}	
+        		System.out.println("\n" + lendItemSeparator(1) + "\n" + count + " LendItem(s) in list, " + (list.INITIAL_SIZE - count) + " free.");
         	case "0":
         		break;
         	default:
@@ -65,7 +66,7 @@ public class Main {
 		if(list.resizable) {
 			if(list.next < list.lendItems.length)
 			{
-				p.id = list.next;
+				p.id = list.next+1;
 				list.lendItems[list.next++] = p;
 				return true;
 			}else if(list.next == list.lendItems.length){
@@ -74,7 +75,7 @@ public class Main {
 				{
 					tempList[i] = list.lendItems[i];			
 				}
-				p.id = list.next;
+				p.id = list.next+1;
 				tempList[list.next++] = p;
 				list.lendItems = tempList;
 				return true;
@@ -83,7 +84,7 @@ public class Main {
 			}
 		}else {
 			if(list.next < list.lendItems.length) {
-				p.id = list.next;
+				p.id = list.next+1;
 				list.lendItems[list.next++] = p;
 				return true;
 			}else {
@@ -99,8 +100,32 @@ public class Main {
 	
 	public static LendItem remove(LendItemArrayList list, int n)
 	{
+		n = n-1;
+		int length = list.lendItems.length;
+		if((list.lendItems == null) || (list.lendItems[0] == null))
+		{
+			System.out.println("List is empty.");
+			return null;
+		}
+		if((n < 0 || n >= length) || (list.lendItems[n] == null)) return null;
 		
+		LendItem item = list.lendItems[n];
+		
+		for(int i = n; i < list.next - 1; i++){ 
+			if(n+1 >= length)
+			{
+				list.lendItems[n] = null;
+			}else{
+				list.lendItems[n] = list.lendItems[n+1];
+			}
+		}
+		
+		list.next--;
+		System.out.printf("1 LendItem (ID=%d) removed.\n", n);
+		
+		return item;
 	}
+	
 
 	
 //	public static void removeLendItem(LendItemArrayList list, int n){
@@ -108,8 +133,13 @@ public class Main {
 //		System.out.println("1 LendItem (ID=" + n + ") removed.");
 //	}
 	
-	public static int listLendItems(LendItemArrayList list, int format){
+	public static int list(LendItemArrayList list, int format){
 		System.out.printf(lendItemHeadings(format));
+		
+		if(list.next == 0)
+		{
+			System.out.println("\nList empty");
+		}
 		
 		for(int i = 0; i < list.next; i++) 
 		{
@@ -205,9 +235,10 @@ public class Main {
 	
 	
 	public static String lendItemString(LendItem it, int format) { 
+		LendItemArrayList list = new LendItemArrayList();
         switch (format) {
         case 1:
-            return String.format("\n%3d %-15.15s %-10.10s %-10.10s %02d", it.id+1, it.description, it.lender,/* dateString(it.lendDate), dateString(it.returnDate),*/ it.owner, it.id);
+            return String.format("\n%3d %-15.15s %-10.10s %-10.10s %02d", it.id, it.description, it.lender,/* dateString(it.lendDate), dateString(it.returnDate),*/ it.owner, it.id-1);
         case 2:
             return String.format("%s\n%-15.15s %-10.10s", /*lendItemHeadings(format), */it.description, it.lender);
         default:
@@ -228,6 +259,50 @@ public class Main {
     		default:
     			return String.format("%3s %-15.15s %-10.10s %s %s %-10.10s\n%s", ID, description, lender, lendDate, returnDate, owner, lendItemSeparator(format));		
     		}
+    }
+    
+    public static LendItemArrayList filterByDescription(LendItemArrayList list, String desc){
+    	
+    	LendItemArrayList filteredList = new LendItemArrayList();		
+    	
+		for(int i = 0; i < list.next; i++) {
+			if(list.lendItems[i] != null)
+			{
+				if(list.lendItems[i].description.contains(desc))
+				{
+					filteredList.lendItems[filteredList.next] = list.lendItems[i];
+					filteredList.next++;
+				}
+			}
+		}
+		return filteredList;
+	}
+    
+    public static int findByID(LendItemArrayList list, int id)
+    {
+    	for(int i = 0; i < list.lendItems.length; i++)
+    	{
+    		if(list.lendItems[i].id == id)
+    		{
+    			return i;
+    		}
+    	}
+    	
+    	return -1;
+    }
+    
+    public static int index(int id)
+    {
+    	LendItemArrayList list = new LendItemArrayList();
+    	for(int i = 0; i < list.next; i++)
+    	{
+    		if(list.lendItems[i].id == id)
+    		{
+    			return i;
+    		}
+    	}
+    	
+    	return -1;
     }
     
     
