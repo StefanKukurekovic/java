@@ -24,7 +24,7 @@ public class Main {
 //            // input = sc.nextInt();
         	switch(input) {
         	case "1":
-        		listLendItems(list,1);
+        		System.out.println(listLendItems(list,1) + " LendItem(s) in list, " + (list.INITIAL_SIZE - list.next) + " free.");
 //        		list.printLendItems();
 //        		System.out.printf("\n%s", lendItemString(item));
         		break;
@@ -91,6 +91,16 @@ public class Main {
 			}
 		}
 	}
+	
+
+//	removes a LendItem at a specified (index) position.
+//	This functions returns the item removed from the list or null if no such item exists. This
+//	function leaves no gaps, that means all items after the removed item are shifted one position.
+	
+	public static LendItem remove(LendItemArrayList list, int n)
+	{
+		
+	}
 
 	
 //	public static void removeLendItem(LendItemArrayList list, int n){
@@ -98,14 +108,16 @@ public class Main {
 //		System.out.println("1 LendItem (ID=" + n + ") removed.");
 //	}
 	
-	public static void listLendItems(LendItemArrayList list, int format){
+	public static int listLendItems(LendItemArrayList list, int format){
 		System.out.printf(lendItemHeadings(format));
-		for(int i = 0; i < list.next; i++) {
+		
+		for(int i = 0; i < list.next; i++) 
+		{
 			System.out.printf(lendItemString(list.lendItems[i], format));
-		}	
-		System.out.println("\n" + lendItemSeparator(format) + "\n" + list.next + " LendItem(s) in list, " + (list.INITIAL_SIZE - list.next) + " free.");
+		}		
+		
+		return list.next;
 	}
-//		return list.next;
 	
 //	public static void filterByDescription(LendItemArrayList list, String desc){
 //		listLendItems(list.filterByDescription(list, desc),1);
