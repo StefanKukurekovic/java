@@ -228,11 +228,10 @@ public class Main {
 		item.lender = lender;
 //
 		System.out.printf("lend date:\n");
-		checkLendDate(sc);
-		sc.nextLine();
+        item.lendDate = scanDate(sc);
         System.out.printf("return date:\n");
-        checkReturnDate(sc);
-        sc.nextLine();        
+        item.returnDate = scanDate(sc);
+        
         System.out.println("1 item added.");
 //		
 		return item;
@@ -244,7 +243,7 @@ public class Main {
 		LendItemArrayList list = new LendItemArrayList();
         switch (format) {
         case 1:
-            return String.format("\n%3d %-15.15s %-10.10s %-10.10s %s %-10.10s (%02d)", it.id, it.description, it.lender, it.lendDate, it.returnDate, it.owner, it.id-1);
+            return String.format("\n%3d %-15.15s %-10.10s %-10.10s %s %-10.10s (%02d)", it.id, it.description, it.lender, dateString(it.lendDate), dateString(it.returnDate), it.owner, list.lendItems[it.id]);
         case 2:
             return String.format("%s\n%-15.15s %-10.10s", /*lendItemHeadings(format), */it.description, it.lender);
         default:
