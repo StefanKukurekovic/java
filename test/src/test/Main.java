@@ -12,9 +12,21 @@ public class Main {
 	public static void main(String[] args) {
 		LendItemArrayList list = new LendItemArrayList();
 		
+		System.out.println("Welcome to Lend Item Manager Program. Please select one option.");
 		
-		
-
+		for (int i = 0; i < 25; i++) {
+			LendItem li = new LendItem();
+			li.id = list.next++;
+			li.description = String.format("%c_description", ((int) (i
+			* Math.PI * 10000)) % 15 + 'A');
+			li.lender = String.format("Gustav_%02d", ((int) (i
+			* Math.PI * 1000000)) % 10);
+			li.lendDate = new Date();
+			li.lendDate.year = 2010 - ((int) (i * Math.PI * 100)) % 100;
+			li.lendDate.month = ((int) (i * Math.PI * 1000000)) % 12 + 1;
+			li.lendDate.day = ((int) (i * Math.PI * 100000000)) % 28 + 1;
+			addItem(list, li);
+			}
 		
 		String input = "";
 		do {
@@ -130,12 +142,10 @@ public class Main {
 	
 
 	
-//	public static void removeLendItem(LendItemArrayList list, int n){
-//		list.removeLendItem(n-1);
-//		System.out.println("1 LendItem (ID=" + n + ") removed.");
-//	}
+
 	
-	public static int list(LendItemArrayList list, int format){
+	public static int list(LendItemArrayList list, int format)
+	{
 		System.out.printf(lendItemHeadings(format));
 		
 		if(list.next == 0)
@@ -152,36 +162,6 @@ public class Main {
 		
 		return list.next;
 	}
-	
-//	public static void filterByDescription(LendItemArrayList list, String desc){
-//		listLendItems(list.filterByDescription(list, desc),1);
-//	}
-	/* ----------------------------------------------------------- OVO JE RADILO -----------------------------------------------------------
-	public static LendItemArrayList filterByDescription(LendItemArrayList list, String desc){
-    	LendItemArrayList filteredList = new LendItemArrayList();
-		int counter = 0;
-		for(int i = 0; i < list.lendItems.size(); i++) {
-			if(list.lendItems.get(i).description.contains(desc))
-			{
-				filteredList.addLendItems(list.lendItems.get(i));
-				counter++;
-			}
-			list.next = counter;
-		}
-		return filteredList;
-	}
-	
-	public static int findByID(LendItemArrayList list, int id)
-	{
-		for(int i = 0; i < list.lendItems.size(); i++) {
-			if(list.lendItems.get(i).description.equals(Integer.toString(id)))
-			{
-				return list.lendItems.indexOf(id-1);
-			}
-		}
-		return -1;
-	}
-	----------------------------------------------------------- OVO JE RADILO -----------------------------------------------------------*/
 	
 	
 	// Displays start menu at the beginning 
@@ -266,31 +246,31 @@ public class Main {
 		return null;
 	}
 	
-	public static String checkLendDate(Scanner sc)
-	{
-		LendItem item = new LendItem();
-		if(item.lendDate == null)
-		{
-			return String.format("<not set>");
-		}else {
-			item.lendDate = scanDate(sc);
-		}
-		
-		return null;
-	}
-	
-	public static String checkReturnDate(Scanner sc)
-	{
-		LendItem item = new LendItem();
-		if(item.returnDate == null)
-		{
-			return String.format("<not set>");
-		}else {
-			item.returnDate = scanDate(sc);
-		}
-		
-		return null;
-	}
+//	public static String checkLendDate(Scanner sc)
+//	{
+//		LendItem item = new LendItem();
+//		if(item.lendDate == null)
+//		{
+//			return String.format("<not set>");
+//		}else if(item.lendDate != null){
+//			item.lendDate = scanDate(sc);
+//		}
+//		
+//		return null;
+//	}
+//	
+//	public static String checkReturnDate(Scanner sc)
+//	{
+//		LendItem item = new LendItem();
+//		if(item.returnDate == null)
+//		{
+//			return String.format("<not set>");
+//		}else {
+//			item.returnDate = scanDate(sc);
+//		}
+//		
+//		return null;
+//	}
         
         // Creates heading for tabular display of lend items
     public static String lendItemHeadings(int format){
