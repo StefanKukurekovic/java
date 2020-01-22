@@ -140,7 +140,7 @@ public class Main {
 		
 		if(list.next == 0)
 		{
-			System.out.println("\nList empty");
+			System.out.print("\nList empty");
 		}
 		
 		for(int i = 0; i < list.next; i++) 
@@ -227,11 +227,13 @@ public class Main {
 		item.owner = owner;
 		item.lender = lender;
 //
-//		System.out.printf("lend date:\n");
-//        item.lendDate = scanDate(sc);
-//        System.out.printf("return date:\n");
-//        item.returnDate = scanDate(sc);
-//        System.out.println("1 item added.");
+		System.out.printf("lend date:\n");
+		checkLendDate(sc);
+		sc.nextLine();
+        System.out.printf("return date:\n");
+        checkReturnDate(sc);
+        sc.nextLine();        
+        System.out.println("1 item added.");
 //		
 		return item;
 	}	
@@ -242,7 +244,7 @@ public class Main {
 		LendItemArrayList list = new LendItemArrayList();
         switch (format) {
         case 1:
-            return String.format("\n%3d %-15.15s %-10.10s %-10.10s (%02d)", it.id, it.description, it.lender,/* dateString(it.lendDate), dateString(it.returnDate),*/ it.owner, it.id-1);
+            return String.format("\n%3d %-15.15s %-10.10s %-10.10s %s %-10.10s (%02d)", it.id, it.description, it.lender, it.lendDate, it.returnDate, it.owner, it.id-1);
         case 2:
             return String.format("%s\n%-15.15s %-10.10s", /*lendItemHeadings(format), */it.description, it.lender);
         default:
@@ -250,6 +252,45 @@ public class Main {
                     /*dateString(it.lendDate), dateString(it.returnDate), */it.owner);
 
     }
+	}
+	
+	public static String date(LendItem it)
+	{
+		if(dateString(it.lendDate) == null)
+		{
+			return String.format("<not set>");
+		}else if(dateString(it.returnDate) == null)
+		{
+			return String.format("<not set>");
+		}
+		
+		return null;
+	}
+	
+	public static String checkLendDate(Scanner sc)
+	{
+		LendItem item = new LendItem();
+		if(item.lendDate == null)
+		{
+			return String.format("<not set>");
+		}else {
+			item.lendDate = scanDate(sc);
+		}
+		
+		return null;
+	}
+	
+	public static String checkReturnDate(Scanner sc)
+	{
+		LendItem item = new LendItem();
+		if(item.returnDate == null)
+		{
+			return String.format("<not set>");
+		}else {
+			item.returnDate = scanDate(sc);
+		}
+		
+		return null;
 	}
         
         // Creates heading for tabular display of lend items
@@ -335,6 +376,8 @@ public class Main {
     			return String.format("%s", dashTwo);
     		default:
     			return String.format("%s", dashDefault);
+    			
+    			
     		}
     	
     	}

@@ -4,7 +4,6 @@ import test.LendItemArrayList;
 
 public class LendItem {
 	LendItemArrayList list = new LendItemArrayList();
-//	void id = list.printPosition();
 	int id;
 	String description;
 	String lender;
