@@ -1,8 +1,6 @@
 package test;
 
 import java.util.Collection;
-//import java.util.ArrayList;
-//import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -16,7 +14,7 @@ public class Main {
 		
 		for (int i = 0; i < 25; i++) {
 			LendItem li = new LendItem();
-			li.id = list.next++;
+			li.id = i;
 			li.description = String.format("%c_description", ((int) (i
 			* Math.PI * 10000)) % 15 + 'A');
 			li.lender = String.format("Gustav_%02d", ((int) (i
@@ -25,30 +23,36 @@ public class Main {
 			li.lendDate.year = 2010 - ((int) (i * Math.PI * 100)) % 100;
 			li.lendDate.month = ((int) (i * Math.PI * 1000000)) % 12 + 1;
 			li.lendDate.day = ((int) (i * Math.PI * 100000000)) % 28 + 1;
-			addItem(list, li);
+			
+			li.returnDate = new Date();
+			li.returnDate.year = 2010 - ((int) (i * Math.PI * 100)) % 100;
+			li.returnDate.month = 1;
+			li.lendDate.day = ((int) (i * Math.PI * 100000000)) % 28 + 1;
+			
+			
+			add(list, li);
 			}
 		
 		String input = "";
 		do {
         	Menu();
         	input = sc.nextLine();
-//            //System.out.printf("enter opcode (9 for usage): ");
-//            // input = sc.nextInt();
+        	
         	switch(input) {
         	case "1":
         		list(list,1);
-        		System.out.println("\n" + list.next + " LendItem(s) in list, " + (list.INITIAL_SIZE - list.next) + " free.");
-//        		list.printLendItems();
-//        		System.out.printf("\n%s", lendItemString(item));
         		break;
         	case "2":
-        		addItem(list, scanLendItem(sc));
+        		add(list, scanLendItem(sc));
         		break;
         	case "3":
         		System.out.print("enter ID of LendItem to be removed: ");
         		int itemNo = sc.nextInt();
         		sc.nextLine();
         		remove(list, itemNo);
+        		break;
+        	case "4":
+        		System.out.println("Sorting not possible at the moment.");
         		break;
         	case "5":
         		System.out.print("enter description: ");
@@ -62,7 +66,17 @@ public class Main {
         				count++;
         			}
         		}	
-        		System.out.println("\n" + lendItemSeparator(1) + "\n" + count + " LendItem(s) in list, " + (list.INITIAL_SIZE - count) + " free.");
+        		System.out.println("\n" + lendItemSeparator(1) + "\n" + count + " LendItem(s) in list, " + (list.lendItems.length - count) + " free.");
+        		break;
+        	case "6":
+        		System.out.println("available options:");
+        		System.out.println("1) full format");
+        		System.out.println("2) short format");
+        		System.out.println("3) csv format");
+        		int format = sc.nextInt();
+        		sc.nextLine();
+        		list(list, format);
+        		break;
         	case "0":
         		break;
         	default:
@@ -74,17 +88,41 @@ public class Main {
         sc.close();
         System.out.printf("Thank you for using LendApp.\n");
     }
-		
-		
-	public static boolean addItem(LendItemArrayList list, LendItem p) {
-		if(list.resizable) {
+	
+	
+	/**
+     * Displays Menu at the beginning
+     */	
+    public static void Menu(){
+    	System.out.println("\n1) list");
+    	System.out.println("2) add");
+    	System.out.println("3) remove");
+    	System.out.println("4) sort");
+    	System.out.println("5) filter");
+    	System.out.println("6) set format");
+    	System.out.println("0) quit");
+    }
+	
+    
+	/**
+     * adds a LendItem to the end of the list
+     * a resizeable list doubles its capacity when an item is to be added to a full list
+     * returns true if successfully added
+     * 
+     * @param list
+     * @param p
+     * @return
+     */	
+	public static boolean add(LendItemArrayList list, LendItem p) {
+		if(list.resizeable) {
 			if(list.next < list.lendItems.length)
 			{
 				p.id = list.next+1;
 				list.lendItems[list.next++] = p;
 				return true;
 			}else if(list.next == list.lendItems.length){
-				LendItem[] tempList = new LendItem[list.INITIAL_SIZE * 2];
+				list.resizeable = true;
+				LendItem[] tempList = new LendItem[list.lendItems.length * 2];
 				for(int i = 0; i < list.next; i++)
 				{
 					tempList[i] = list.lendItems[i];			
@@ -107,43 +145,59 @@ public class Main {
 		}
 	}
 	
-
-//	removes a LendItem at a specified (index) position.
-//	This functions returns the item removed from the list or null if no such item exists. This
-//	function leaves no gaps, that means all items after the removed item are shifted one position.
 	
+	/**
+     * removes a LendItem at a specified (index) position
+     * returns the item removed from the list or null if no such item exists
+     * function leaves no gaps, that means all items after the removed item are shifted one position.
+     * 
+     * @param list
+     * @param p
+     * @return
+     */	
 	public static LendItem remove(LendItemArrayList list, int n)
 	{
-		n = n-1;
-		int length = list.lendItems.length;
-		if((list.lendItems == null) || (list.lendItems[0] == null))
+		if(list.next == 0)
 		{
-			System.out.println("List is empty.");
+			System.out.print("\nList empty");
 			return null;
 		}
-		if((n < 0 || n >= length) || (list.lendItems[n] == null)) return null;
+		if(n < 0 || n > list.next)
+		{
+			System.out.printf("LendItem not found (ID %d).\n", n);
+			return null;
+		}
 		
+		int original = n;
+		n = n-1;		
+				
 		LendItem item = list.lendItems[n];
 		
 		for(int i = n; i < list.next - 1; i++){ 
-			if(n+1 >= length)
+			if(n+1 >= list.next)
 			{
-				list.lendItems[n] = null;
+				list.lendItems[i] = null;
 			}else{
-				list.lendItems[n] = list.lendItems[n+1];
+				list.lendItems[i] = list.lendItems[i+1];
 			}
 		}
 		
 		list.next--;
-		System.out.printf("1 LendItem (ID=%d) removed.\n", n);
+		System.out.printf("1 LendItem (ID=%d) removed.\n", original);
 		
 		return item;
 	}
 	
-
 	
-
-	
+	/**
+     * Displays all items in the list
+     * returns the item removed from the list or null if no such item exists
+     * function leaves no gaps, that means all items after the removed item are shifted one position.
+     * 
+     * @param list
+     * @param p
+     * @return
+     */	
 	public static int list(LendItemArrayList list, int format)
 	{
 		System.out.printf(lendItemHeadings(format));
@@ -159,35 +213,66 @@ public class Main {
 		}		
 		
 		System.out.printf("\n" + lendItemSeparator(format));
+		System.out.println("\n" + list.next + " LendItem(s) in list, " + (list.lendItems.length - list.next) + " free.");
 		
 		return list.next;
 	}
 	
 	
-	// Displays start menu at the beginning 
-    public static void Menu(){
-    	System.out.println("\n1) list");
-    	System.out.println("2) add");
-    	System.out.println("3) remove");
-    	System.out.println("4) sort");
-    	System.out.println("5) filter");
-    	System.out.println("6) set format");
-    	System.out.println("0) quit");
+	/**
+     * Filters a list returning only those items that match a speified description
+     * 
+     * @param list
+     * @param desc
+     * @return
+     */
+	public static LendItemArrayList filterByDescription(LendItemArrayList list, String desc){
+    	
+    	LendItemArrayList filteredList = new LendItemArrayList();	
+    	
+		for(int i = 0; i < list.lendItems.length; i++) {
+			if(list.lendItems[i] != null)
+			{
+				if(list.lendItems[i].description.contains(desc))
+				{
+					filteredList.lendItems[filteredList.next] = list.lendItems[i];
+					filteredList.next++;
+				}
+			}
+		}
+		return filteredList;
+	}
+	
+	
+	/**
+     * Finds an item by ID
+     * 
+     * @param list
+     * @param id
+     * @return
+     */
+    public static int findByID(LendItemArrayList list, int id)
+    {
+    	for(int i = 0; i < list.lendItems.length; i++)
+    	{
+    		if(list.lendItems[i].id == id)
+    		{
+    			return i;
+    		}
+    	}
+    	
+    	return -1;
     }
+    
 	
-	// Adds new item to the program
-//	public static void add(LendItemArrayList list, LendItem p) {
-//		
-////		if(isFull(list))
-////			resize(list);
-//		
-//		list.lendItems[list.next++] = p; 	
-//	}
-	
-	// Scans new items
+    /**
+     * Scanns user input
+     * 
+     * @param sc
+     * @return
+     */
 	public static LendItem scanLendItem(Scanner sc) {
 		String desc = "", lender = "", owner= "";
-		LendItemArrayList list = new LendItemArrayList();
 		
 		while(true) {			
 			System.out.printf("description: ");
@@ -206,33 +291,73 @@ public class Main {
 		item.description = desc;
 		item.owner = owner;
 		item.lender = lender;
-//
+
 		System.out.printf("lend date:\n");
         item.lendDate = scanDate(sc);
         System.out.printf("return date:\n");
         item.returnDate = scanDate(sc);
         
         System.out.println("1 item added.");
-//		
+		
 		return item;
 	}	
 	
 	
-	
+	/**
+     * creates a String representation of a LendItem in a specified format<br>
+     * 
+     * The format is controlled by parameter format:
+     * <ul>
+     * <li>1: full format</li>
+     * <li>2: short format</li>
+     * <li>3 (and in all other cases): csv format</li>
+     * </ul>
+     * 
+     * Full Format: "&ltdescription> &ltlender> &ltlend date> &ltreturn date>
+     * &ltowner>" where
+     * <ul>
+     * <li>description is exactly 15 characters wide, left aligned</li>
+     * <li>lender and owner are exactly 10 characters wide, left aligned</li>
+     * <li>dates are in their default format</li>
+     * </ul>
+     * 
+     * Short Format: "&ltdescription> &ltlender>" where
+     * <ul>
+     * <li>description is exactly 15 characters wide, left aligned</li>
+     * <li>lender are exactly 10 characters wide, left aligned</li>
+     * </ul>
+     * 
+     * CSV Format: "&ltdescription>,&ltlender>,&ltlend date>,&ltreturn
+     * date>,&ltowner>" where all String values are surrounded by double quotes and
+     * dates are in their default format.
+     * 
+     * @param it
+     * @param format
+     * @return
+     */
 	public static String lendItemString(LendItem it, int format) { 
-		LendItemArrayList list = new LendItemArrayList();
         switch (format) {
         case 1:
-            return String.format("\n%3d %-15.15s %-10.10s %-10.10s %s %-10.10s (%02d)", it.id, it.description, it.lender, dateString(it.lendDate), dateString(it.returnDate), it.owner, list.lendItems[it.id]);
+            return String.format("\n%3d %-15.15s %-10.10s %-10.10s %s %-10.10s (%02d)", it.id, it.description, it.lender, dateString(it.lendDate), dateString(it.returnDate), it.owner, it.id-1);
         case 2:
-            return String.format("%s\n%-15.15s %-10.10s", /*lendItemHeadings(format), */it.description, it.lender);
+            return String.format("\n%-15.15s %-10.10s", it.description, it.lender);
+        case 3:
+            return String.format("\n\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"", it.description, it.lender,
+                    dateString(it.lendDate), dateString(it.returnDate), it.owner);
         default:
-            return String.format("%s\n\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"", /*lendItemHeadings(format), it.ID,*/ it.description, it.lender,
-                    /*dateString(it.lendDate), dateString(it.returnDate), */it.owner);
+            return String.format("\n%-15.15s %-10.10s %-10.10s %s %-10.10s (%02d)", it.description, it.lender, dateString(it.lendDate), dateString(it.returnDate), it.owner, it.id-1);
+            
 
     }
 	}
 	
+	
+	/**
+	 * Converts user input to Date
+	 * 
+	 * @param it
+	 * @return
+	 */
 	public static String date(LendItem it)
 	{
 		if(dateString(it.lendDate) == null)
@@ -246,135 +371,72 @@ public class Main {
 		return null;
 	}
 	
-//	public static String checkLendDate(Scanner sc)
-//	{
-//		LendItem item = new LendItem();
-//		if(item.lendDate == null)
-//		{
-//			return String.format("<not set>");
-//		}else if(item.lendDate != null){
-//			item.lendDate = scanDate(sc);
-//		}
-//		
-//		return null;
-//	}
-//	
-//	public static String checkReturnDate(Scanner sc)
-//	{
-//		LendItem item = new LendItem();
-//		if(item.returnDate == null)
-//		{
-//			return String.format("<not set>");
-//		}else {
-//			item.returnDate = scanDate(sc);
-//		}
-//		
-//		return null;
-//	}
-        
-        // Creates heading for tabular display of lend items
+       
+        /** Creates heading for tabular display of lend items
+         * 
+         * @param format
+         * @return
+         */
     public static String lendItemHeadings(int format){
-    		String ID = "ID", description = "description", lender = "lender", lendDate = "lend date", returnDate = "return date", owner = "owner";
-    		switch(format) {
-    		case 1:
-    			return String.format("%3s %-15.15s %-10.10s %s %s %s\n%s", ID, description, lender, lendDate, returnDate, owner, lendItemSeparator(format));
-    		case 2:
-    			return String.format("%-15.15s %-10.10s\n%s", description, lender, lendItemSeparator(format));
-    		default:
-    			return String.format("%3s %-15.15s %-10.10s %s %s %-10.10s\n%s", ID, description, lender, lendDate, returnDate, owner, lendItemSeparator(format));		
-    		}
-    }
-    
-    public static LendItemArrayList filterByDescription(LendItemArrayList list, String desc){
-    	
-    	LendItemArrayList filteredList = new LendItemArrayList();	
-    	
-//    	if(desc == null || desc.length() == 0) return null;
-//    	if(list == null || list.next == 0) return null;
-    	
-		for(int i = 0; i < list.lendItems.length; i++) {
-			if(list.lendItems[i] != null)
-			{
-				if(list.lendItems[i].description.contains(desc))
-				{
-					filteredList.lendItems[filteredList.next] = list.lendItems[i];
-					filteredList.next++;
-				}
-			}
-		}
-		return filteredList;
-	}
-    
-    public static int findByID(LendItemArrayList list, int id)
-    {
-    	for(int i = 0; i < list.lendItems.length; i++)
-    	{
-    		if(list.lendItems[i].id == id)
-    		{
-    			return i;
-    		}
+    	String ID = "ID", description = "description", lender = "lender", lendDate = "lend date", returnDate = "return date", owner = "owner";
+    	switch(format) {
+    	case 1:
+    	return String.format("%3s %-15.15s %-10.10s %s %s %s\n%s", ID, description, lender, lendDate, returnDate, owner, lendItemSeparator(format));
+    	case 2:
+    		return String.format("%-15.15s %-10.10s\n%s", description, lender, lendItemSeparator(format));
+    	default:
+    		return String.format("%3s %-15.15s %-10.10s %s %s %-10.10s\n%s", ID, description, lender, lendDate, returnDate, owner, lendItemSeparator(format));		
     	}
-    	
-    	return -1;
-    }
+    }  
     
-    public static int index(int id)
-    {
-    	LendItemArrayList list = new LendItemArrayList();
-    	for(int i = 0; i < list.next; i++)
-    	{
-    		if(list.lendItems[i].id == id)
-    		{
-    			return i;
-    		}
-    	}
-    	
-    	return -1;
-    }
-    
-    
+    /** Converts Date to String
+     * 
+     * @param d
+     * @return
+     */
     private static String dateString(Date d) {
-    	String notSet = "<not set>";
-    	if(d == null)
-    	{
-    		return String.format("%04d.%02d.%02d", d.year, d.month, d.day);
-    	}
         return String.format("%04d.%02d.%02d", d.year, d.month, d.day);
     }
     	
-        // Creates the separators for the table.
-    	public static String lendItemSeparator(int format)
-    	{
-    		String dashOne = "------------------------------------------------------------------";
-    		String dashTwo = "-------------------------";
-    		String dashDefault = "------------------------------------------------------------------";
-    		switch (format) {
-    		case 1:
-    			return String.format("%s", dashOne);
-    		case 2:
-    			return String.format("%s", dashTwo);
-    		default:
-    			return String.format("%s", dashDefault);
-    			
-    			
-    		}
-    	
+    
+    /**
+     * Creates the separators for the table.
+     * 
+     * @param format
+     * @return
+     */
+    public static String lendItemSeparator(int format)
+    {
+    	String dashOne = "------------------------------------------------------------------";
+    	String dashTwo = "---------------------------------";
+    	String dashDefault = "------------------------------------------------------------------";
+    	switch (format) {
+    	case 1:
+    		return String.format("%s", dashOne);
+    	case 2:
+    		return String.format("%s", dashTwo);
+    	default:
+    		return String.format("%s", dashDefault);
     	}
+    }
     	
-    	public static Date scanDate(Scanner sc) {
-            int y, m, d;
-            while(true) {
-                System.out.printf("year: ");
-                y = Integer.parseInt(sc.nextLine());
-                System.out.printf("month: ");
-                m = Integer.parseInt(sc.nextLine());
-                System.out.printf("day: ");
-                d = Integer.parseInt(sc.nextLine());
-
-//                if(y == 0)
-//                {
-//                    continue;
-//                }
+    /**
+     * Scans user input and returns Date
+     * 
+     * @param sc
+     * @return
+     */
+    public static Date scanDate(Scanner sc) 
+    {
+    	int y, m, d;
+        while(true) {
+        System.out.printf("year: ");
+        y = Integer.parseInt(sc.nextLine());
+        System.out.printf("month: ");
+        m = Integer.parseInt(sc.nextLine());
+        System.out.printf("day: ");
+        d = Integer.parseInt(sc.nextLine());
+        
                 if (y < 1582) {
                     System.out.printf("year cannot be before 1582!\n");
                     continue;
@@ -397,198 +459,7 @@ public class Main {
             return dat;
         }
     	
-//    	public static LendItemArrayList sortListByDate(LendItemArrayList list){
-//   		 LendItemArrayList sortedList = list.createCopy(list);
-//   			boolean swapped; 
-//   			int i=0; 
-//   			do { 
-//   				swapped = false; 
-//   				for (int j = 1; j < sortedList.next - i; j++){ 
-//   					if (compareDates(sortedList.list.lendItems.get[j - 1].release, sortedList.movies[j].release)) { 
-//   						Movie tmp = sortedList.movies[j];
-//   						sortedList.movies[j] = sortedList.movies[j-1];
-//   						sortedList.movies[j-1] = tmp;
-//   						swapped = true; 
-//   					}
-//   				}
-//   				i++;			
-//   			}
-//   			while (swapped);
-//   			return sortedList;
-//   		}
-    	
-    	
-    	public static int compare(LendItem it1, LendItem it2, int method) {
-            switch (method) {
-            case 1:
-                return compareByLendDate(it1, it2);
-            case 2:
-                return compareByReturnDate(it1, it2);
-            case 3:
-                return compareByLender(it1, it2);
-            case 4:
-                return compareByOwner(it1, it2);
-            default:
-                return compareByDescription(it1, it2);
-            }
-        }
 
-        /**
-         * compares two LendItems by lend date <br>
-         * returns -1 if the lend date of it1 is before than of it2, 1 if the other way
-         * round, 0 if they are the same.<br>
-         * Note: any two null-LendItems are equal and any null-LendItem goes before any
-         * non-LendItem event.
-         * 
-         * @param it1
-         * @param it2
-         * @return
-         */
-        public static int compareByLendDate(LendItem it1, LendItem it2) {
-            if (it1 == null && it2 == null)
-                return 0;
-            if (it1 == null)
-                return -1;
-            if (it2 == null)
-                return 1;
-
-            return compare(it1.lendDate, it2.lendDate);
-        }
-
-        /**
-         * compares two LendItems by return date <br>
-         * returns -1 if the return date of it1 is before than of it2, 1 if the other
-         * way round, 0 if they are the same. <br>
-         * Note: any two null-LendItems are equal and any null-LendItem goes before any
-         * non-LendItem event.
-         * 
-         * @param it1
-         * @param it2
-         * @return
-         */
-        public static int compareByReturnDate(LendItem it1, LendItem it2) {
-            if (it1 == null && it2 == null)
-                return 0;
-            if (it1 == null)
-                return -1;
-            if (it2 == null)
-                return 1;
-
-            return compare(it1.returnDate, it2.returnDate);
-        }
-
-        /**
-         * compares two LendItems by description<br>
-         * returns -1 if the description of it1 is before than of it2, 1 if the other
-         * way round, 0 if they are the same. <br>
-         * descriptions are compared lexicographically (see String.compareTo) <br>
-         * Note: any two null-LendItems are equal and any null-LendItem goes before any
-         * non-LendItem event.
-         * 
-         * @param it1
-         * @param it2
-         * @return
-         */
-        public static int compareByDescription(LendItem it1, LendItem it2) {
-            if (it1 == null && it2 == null)
-                return 0;
-            if (it1 == null)
-                return -1;
-            if (it2 == null)
-                return 1;
-
-            int res = it1.description.compareTo(it2.description);
-            if (res > 0)
-                return 1;
-            if (res < 0)
-                return -1;
-            return 0;
-        }
-
-        /**
-         * compares two Date<br>
-         * returns -1 if d1 is before it2, 1 if the other way round, 0 if they are the
-         * same. <br>
-         * Note: any two null-Dates are equal and any null-Dates goes before any
-         * non-null Date.
-         * 
-         * @param it1
-         * @param it2
-         * @return
-         */
-        public static int compare(Date d1, Date d2) {
-            if (d1 == null && d2 == null)
-                return 0;
-            if (d1 == null)
-                return -1;
-            if (d2 == null)
-                return 1;
-
-            int res = (d1.day + d1.month * 100 + d1.year * 10000) - (d2.day + d2.month * 100 + d2.year * 10000);
-
-            if (res > 0)
-                return 1;
-            if (res < 0)
-                return -1;
-            return 0;
-
-        }
-
-        /**
-         * compares two LendItems by lender <br>
-         * returns -1 if the lender of it1 is before than of it2, 1 if the other way
-         * round, 0 if they are the same. <br>
-         * lenders are compared lexicographically (see String.compareTo) <br>
-         * Note: any two null-LendItems are equal and any null-LendItem goes before any
-         * non-LendItem event.
-         * 
-         * @param it1
-         * @param it2
-         * @return
-         */
-        public static int compareByLender(LendItem it1, LendItem it2) {
-            if (it1 == null && it2 == null)
-                return 0;
-            if (it1 == null)
-                return -1;
-            if (it2 == null)
-                return 1;
-
-            int res = it1.lender.compareTo(it2.lender);
-            if (res > 0)
-                return 1;
-            if (res < 0)
-                return -1;
-            return 0;
-        }
-
-        /**
-         * compares two LendItems by owner <br>
-         * returns -1 if the owner of it1 is before than of it2, 1 if the other way
-         * round, 0 if they are the same. <br>
-         * owner are compared lexicographically (see String.compareTo) <br>
-         * Note: any two null-LendItems are equal and any null-LendItem goes before any
-         * non-LendItem event.
-         * 
-         * @param it1
-         * @param it2
-         * @return
-         */
-        public static int compareByOwner(LendItem it1, LendItem it2) {
-            if (it1 == null && it2 == null)
-                return 0;
-            if (it1 == null)
-                return -1;
-            if (it2 == null)
-                return 1;
-
-            int res = it1.owner.compareTo(it2.owner);
-            if (res > 0)
-                return 1;
-            if (res < 0)
-                return -1;
-            return 0;
-        }
     	
     	
 	}
