@@ -15,6 +15,7 @@ public class StockMarket {
 		System.out.println("***Empty stock list***");
 		
 		// use the displayAllStocks function here	
+		displayAllStocks(stockList);
 		
 		System.out.println();
 
@@ -24,6 +25,8 @@ public class StockMarket {
 		
 		// use the addDemodata function to add some stocks to stockList
 		// use the displayStock function to display the first element of the stockList
+		addStock(stockList, "Apple", new double[] { 293.7, 300.4, 298.6 });
+		displayAllStocks(stockList);
 		
 		System.out.println();
 		
@@ -32,6 +35,8 @@ public class StockMarket {
 		System.out.println("***Stock list with demo data***");
 		
 		// display the complete stockList with the displayAllStocks function
+		addDemodata(stockList);
+		displayAllStocks(stockList);
 		
 		System.out.println();
 		
@@ -41,6 +46,9 @@ public class StockMarket {
 		
 		// try to add a duplicate stock (a stock with the name of an already existing stock in the list) to the stockList,
 		// display all stocks with the displayAllStocks function it should not contain the duplicate stock.
+		addStock(stockList, "Apple", new double[] { 293.7, 300.4, 298.6 });
+		addDemodata(stockList);
+		displayAllStocks(stockList);
 
 		System.out.println();
 		
@@ -57,6 +65,7 @@ public class StockMarket {
 		System.out.println("***Only up trending stocks***");
 		
 		//display all stocks that are returned by the filterStocks function
+		displayAllStocks(filterStocks(stockList));
 		
 		System.out.println();
 		
@@ -69,6 +78,12 @@ public class StockMarket {
 		// remove the movie at index position 0
 		// try to remove an invalid index
 		// use the displayAllStocks function
+		removeStock(stockList, 4);
+		removeStock(stockList, 1);
+		removeStock(stockList, 0);
+		removeStock(stockList, -1);
+		displayAllStocks(stockList);
+		
 		
 	}
 
@@ -79,6 +94,7 @@ public class StockMarket {
 	// the difference between the third and the second day in previous3Days 
 	// and the relative change in percent between the third and the second day in previous3Day
 	public static void displayStock(Stock stock) {
+		System.out.printf("%-14.14s %-9.1f %+-7.1f %+.2f \n", stock.name, stock.previous3Days[2], (stock.previous3Days[2] - stock.previous3Days[1]), ((stock.previous3Days[2]-stock.previous3Days[1])/stock.previous3Days[1])*100);
 		
 	}	
 
@@ -89,7 +105,14 @@ public class StockMarket {
 	// If the list has no entries output a message that there are no entries instead.
 	// Hint: use the displayStock method.
 	public static void displayAllStocks(StockList list) {
+		System.out.printf("%-14.14s %-9.9s %-7.7s %s\n", "Name", "Price", "Diff", "Change");
+		separatorLine();
 		
+		if(list.next == 0) System.out.println("The stock list is still empty!");
+		
+		for(int i = 0; i < list.next; i++) {
+			displayStock(list.stocks[i]);
+		}
 	}
 
 	// 8pts
@@ -100,6 +123,14 @@ public class StockMarket {
 	// the capacity of the StockList should be increased before the new stock is added.
 	// The function should return true if the stock was added successfully and false otherwise.
 	public static boolean addStock(StockList list, Stock stock) {
+		for(int i = 0; i < list.next; i++) {
+			if(list.stocks[i].name == stock.name) return false;
+		}
+		
+		if(list.next == list.stocks.length) resize(list);
+		
+		list.stocks[list.next] = stock;
+		list.next++;
 
 		return false;
 	}
@@ -109,8 +140,12 @@ public class StockMarket {
 	// and use the above addStock() method to add the new Stock to the list.
 	// The function should return true if the stock was added successfully and false otherwise.
 	public static boolean addStock(StockList list, String name, double[] previous3Days) {
+		
+		Stock stock = new Stock();
+		stock.name = name;
+		stock.previous3Days = previous3Days;
 
-		return false;
+		return addStock(list, stock);
 	}
 
 	// 6pts
@@ -118,6 +153,12 @@ public class StockMarket {
 	// Check if the index is a valid index to prevent exceptions.
 	// If the index is invalid just do nothing.
 	public static void removeStock(StockList list, int idx) {
+		if(idx < 0 || idx >= list.next) return;
+		
+		for(int i = idx; i < list.next; i++) {
+			list.stocks[i] = list.stocks[i+1];
+		}
+		list.next--;
 
 	}
 
@@ -132,9 +173,16 @@ public class StockMarket {
 	// A stock is only upwards trending if every consecutive day in the previous3Days is bigger then the previous one.
 	// The new StockList should be returned.
 	public static StockList filterStocks(StockList list) {
+		StockList filteredList = new StockList();
+		
+		for(int i = 0; i < list.next; i++) {
+			if((list.stocks[i].previous3Days[0] < list.stocks[i].previous3Days[1]) && (list.stocks[i].previous3Days[1] < list.stocks[i].previous3Days[2])) {
+				addStock(filteredList, list.stocks[i]);
+			}
+		}
 
 		
-		return null;
+		return filteredList;
 	}
 	
 	
@@ -149,6 +197,19 @@ public class StockMarket {
 		addStock(list, "Amazon", new double[] { 1898, 1872.9, 1847.8 });
 		addStock(list, "Facebook", new double[] { 204.4, 205.3, 209.8 });
 		addStock(list, "Netflix", new double[] { 323.6, 323.3, 329.8 });
+	}
+	
+	public static void resize(StockList list) {
+		Stock[] newList = new Stock[list.stocks.length * 2];
+		for(int i = 0; i < list.next; i++) {
+			newList[i] = list.stocks[i];
+		}
+		
+		list.stocks = newList;
+	}
+	
+	public static void separatorLine() {
+		System.out.println("----------------------------------------");
 	}
 
 }
