@@ -165,8 +165,19 @@ public class StockMarket {
 	// 8pts
 	// Sort stocks in the StockList by relative change.
 	public static void sortStocksByChange(StockList list) {
+		StockList sortedList = new StockList();
+		boolean swapped;
+		int i = 0;
+		
+		do {
+			swapped = false;
+			for(int j = 0; j < list.next; j++) {
+				
+			}
+		}
 
 	}
+	
 
 	// 7pts
 	// Create a new StockList and add all stocks from the original List that are upwards trending.
