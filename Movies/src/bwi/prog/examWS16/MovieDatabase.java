@@ -31,10 +31,10 @@ public class MovieDatabase {
 //		displayAllMovies(sortMoviesByRelease(movieList));
 //		System.out.println();
 
-//		//should display all movies that Brad Pitt was starring in.
-//		System.out.println("***Only Brad Pitt Movies***");
-//		displayAllMovies(filterMoviesByActor(movieList,"Brad Pitt"));
-//		System.out.println();
+		//should display all movies that Brad Pitt was starring in.
+		System.out.println("***Only Brad Pitt Movies***");
+		displayAllMovies(filterMoviesByActor(movieList,"Brad Pitt"));
+		System.out.println();
 
 		//try to remove an invalid index
 		removeMovie(movieList, -1);
@@ -102,6 +102,13 @@ public class MovieDatabase {
 	//Check if the index is a valid index to prevent exceptions. 
 	//If the index is invalid just do nothing.
 	public static void removeMovie(MovieList list, int idx){
+		if(idx < 0 || idx >= list.next) return;
+		
+		for(int i = idx; i < list.next; i++) {
+			list.movies[i] = list.movies[i+1];
+		}
+		
+		list.next--;
 
 	}
 	
@@ -110,8 +117,17 @@ public class MovieDatabase {
 	//You shall create a deep copy of the list so if you change(add, remove a movie) the original or the copied list
 	//it shall not have an effect on the other list.
 	public static MovieList createCopy(MovieList list){
+		MovieList copy = new MovieList();
+		
+		copy.movies = new Movie[list.movies.length];
+		
+		for(int i = 0; i < list.next; i++) {
+			copy.movies[i] = list.movies[i];
+		}
+		
+		copy.next = list.next;
 
-		return null;
+		return copy;
 	}
 	
 	//7pts
@@ -128,8 +144,17 @@ public class MovieDatabase {
 	//Do not alter the original list. 
 	//Return a new MovieList with all movies starring the chosen actor.
 	public static MovieList filterMoviesByActor(MovieList list, String actor){
+		MovieList filteredList = new MovieList();
+		
+		for(int i = 0; i < list.next; i++) {
+			for(int j = 0; j < list.movies[i].actors.length; j++) {
+				if(list.movies[i].actors[j] == actor) {
+					addMovie(filteredList, list.movies[i]);
+				}
+			}
+		}
 
-		return null;
+		return filteredList;
 	}
 	
 	
