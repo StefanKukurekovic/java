@@ -7,6 +7,21 @@ public class BankAccount {
 	private String email;
 	private String phone;
 	
+	// with empty constructor we define the default values
+	public BankAccount() {
+		this("Empty", 0.00, "Empty", "Empty", "Empty");
+		System.out.println("Empty Constructor called");
+	}
+	
+	public BankAccount(String accountNumber, double balance, String customerName, String email, String phone) {
+		System.out.println("Account Constructor with parameters called");
+		setAccountNumber(accountNumber);
+		setBalance(balance);
+		setCustomerName(customerName);
+		setEmail(email);
+		setPhoneNumber(phone);
+	}
+	
 	/***************************************************************
 	 * getters
 	 ***************************************************************/

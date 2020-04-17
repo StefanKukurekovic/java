@@ -7,7 +7,9 @@ public class main {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		BankAccount bankAcc = new BankAccount();
+		BankAccount bankAcc = new BankAccount("AT2301134000000004842663", 654826.54, "Stefan Kukurekovic", "kukabgd@gmail.com", "0650/ 270-34-37");
+		
+		/*
 		bankAcc.setCustomerName("Stefan Kukurekovic");
 		bankAcc.setAccountNumber("AT2301134000000004842663");
 		bankAcc.setBalance(239.324);
@@ -30,16 +32,18 @@ public class main {
 		
 		
 		
-			case 1:
+			case 1:*/
 				System.out.println("----------------------------------------------------------");
-				System.out.printf("| Customer name: %3s %21s %16s\n", "|", bankAcc.getCustomerName(), "|");
+				System.out.printf("| Customer name: %3s %12s\n", "|", bankAcc.getCustomerName());
 				System.out.println("----------------------------------------------------------");
-				System.out.printf("| Account number:%3s %27s %10s\n", "|", bankAcc.getAccountNumber(), "|");
+				System.out.printf("| Account number:%3s %12s\n", "|", bankAcc.getAccountNumber());
 				System.out.println("----------------------------------------------------------");
-				System.out.printf("| Email address: %3s %36s %1s\n", "|", bankAcc.getEmail(), "|");
+				System.out.printf("| Email address: %3s %12s\n", "|", bankAcc.getEmail());
 				System.out.println("----------------------------------------------------------");
-				System.out.printf("| Phone number: %4s %17s %20s\n", "|", bankAcc.getPhone(), "|");
+				System.out.printf("| Phone number: %4s %12s\n", "|", bankAcc.getPhone());
 				System.out.println("----------------------------------------------------------");
+				System.out.printf("| Balance:%10s %12.2f €\n", "|", bankAcc.getBalance());
+				System.out.println("----------------------------------------------------------");/*
 				break;
 			case 2:
 				System.out.println("----------------------------------------------------------");
@@ -61,7 +65,9 @@ public class main {
 				condition = true;
 			}
 		}while(condition == false);
-
+		
+		
+*/
 	}
 
 }
