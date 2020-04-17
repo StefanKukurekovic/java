@@ -15,11 +15,11 @@ public class BankAccount {
 	
 	public BankAccount(String accountNumber, double balance, String customerName, String email, String phone) {
 		System.out.println("Account Constructor with parameters called");
-		setAccountNumber(accountNumber);
-		setBalance(balance);
-		setCustomerName(customerName);
-		setEmail(email);
-		setPhoneNumber(phone);
+		this.accountNumber = accountNumber;
+		this.balance = balance;
+		this.customerName = customerName;
+		this.email = email;
+		this.phone = phone;
 	}
 	
 	/***************************************************************
